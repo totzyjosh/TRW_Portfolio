@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Education | Alexander Chase</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-white overflow-x-hidden;
+            }
+        }
+        .edu-card {
+            @apply border-b border-white/10 py-12 flex flex-col md:flex-row md:items-baseline justify-between transition-all duration-500 hover:border-white/40;
+        }
+        .cert-pill {
+            @apply border border-white/10 bg-white/5 rounded-2xl p-6 flex items-start gap-4 hover:bg-white/10 transition-colors;
+        }
+    </style>
+    <script src="navigation.js" defer></script>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans">
+    <header class="w-full fixed top-0 z-50 px-6 py-6 bg-background-dark/80 backdrop-blur-lg">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="bg-white text-black p-2 rounded-lg">
+                    <span class="material-symbols-outlined font-bold">school</span>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="text-sm font-extrabold uppercase tracking-wider">Alexander Chase</span>
+                    <span class="text-[10px] text-white/50 uppercase tracking-[0.2em]">Academic Background</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <button
+                    class="hidden md:flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
+                    Say Hello <span class="material-symbols-outlined text-sm">north_east</span>
+                </button>
+                <button class="bg-white text-black p-2 rounded-full flex items-center justify-center menu-trigger">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow pt-48 pb-24">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="mb-32">
+                <h2 class="text-white/40 text-sm font-bold uppercase tracking-[0.3em] mb-6">Foundations</h2>
+                <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9]">
+                    Education &amp; <br />Expertise
+                </h1>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-40">
+                <div class="lg:col-span-4">
+                    <h3 class="text-xl font-bold uppercase tracking-widest text-white/20 sticky top-32">Main Studies
+                    </h3>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="edu-card group">
+                        <div class="flex-1">
+                            <span class="text-white/40 text-sm font-bold mb-4 block tracking-widest">2014 — 2016</span>
+                            <h4
+                                class="text-4xl md:text-5xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-500">
+                                MSc. Computer Science</h4>
+                            <p class="text-xl text-white/60 font-medium">Stanford University</p>
+                        </div>
+                        <div class="mt-6 md:mt-0 text-right">
+                            <span
+                                class="text-xs font-bold border border-white/20 px-3 py-1 rounded-full uppercase tracking-tighter">High
+                                Distinction</span>
+                        </div>
+                    </div>
+                    <div class="edu-card group">
+                        <div class="flex-1">
+                            <span class="text-white/40 text-sm font-bold mb-4 block tracking-widest">2010 — 2014</span>
+                            <h4
+                                class="text-4xl md:text-5xl font-bold mb-4 group-hover:translate-x-2 transition-transform duration-500">
+                                BEng. Software Engineering</h4>
+                            <p class="text-xl text-white/60 font-medium">Massachusetts Institute of Technology</p>
+                        </div>
+                        <div class="mt-6 md:mt-0 text-right">
+                            <span
+                                class="text-xs font-bold border border-white/20 px-3 py-1 rounded-full uppercase tracking-tighter">GPA
+                                4.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-4">
+                    <h3 class="text-xl font-bold uppercase tracking-widest text-white/20 sticky top-32">Certifications
+                    </h3>
+                </div>
+                <div class="lg:col-span-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="cert-pill">
+                            <span class="material-symbols-outlined text-white/40">verified</span>
+                            <div>
+                                <h5 class="font-bold text-lg">AWS Solutions Architect</h5>
+                                <p class="text-sm text-white/50">Professional Certification</p>
+                            </div>
+                        </div>
+                        <div class="cert-pill">
+                            <span class="material-symbols-outlined text-white/40">workspace_premium</span>
+                            <div>
+                                <h5 class="font-bold text-lg">Google Cloud Engineer</h5>
+                                <p class="text-sm text-white/50">Professional Cloud Architect</p>
+                            </div>
+                        </div>
+                        <div class="cert-pill">
+                            <span class="material-symbols-outlined text-white/40">token</span>
+                            <div>
+                                <h5 class="font-bold text-lg">CKAD</h5>
+                                <p class="text-sm text-white/50">Certified Kubernetes Application Developer</p>
+                            </div>
+                        </div>
+                        <div class="cert-pill">
+                            <span class="material-symbols-outlined text-white/40">psychology</span>
+                            <div>
+                                <h5 class="font-bold text-lg">Deep Learning Specialization</h5>
+                                <p class="text-sm text-white/50">Coursera / DeepLearning.AI</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full mt-40 select-none pointer-events-none opacity-5">
+            <h1
+                class="text-[20vw] leading-none font-black uppercase tracking-tighter text-white whitespace-nowrap text-center">
+                Knowledge
+            </h1>
+        </div>
+    </main>
+    <footer class="w-full py-12 px-6 border-t border-white/5 bg-background-dark">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/40">
+                <a class="hover:text-white transition-colors" href="#">LinkedIn</a>
+                <a class="hover:text-white transition-colors" href="#">GitHub</a>
+                <a class="hover:text-white transition-colors" href="#">Dribbble</a>
+            </div>
+            <div class="flex flex-col items-center gap-2">
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                    <span>Back to Start</span>
+                    <span class="material-symbols-outlined text-sm rotate-180">expand_more</span>
+                </div>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest text-white/40 text-center md:text-right">
+                © 2024 Alexander Chase<br />
+                <span class="text-[10px] opacity-50">Continuous Learning Journey</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

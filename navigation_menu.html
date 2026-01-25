@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Full Screen Navigation Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#111111",
+                        "background-light": "#F3F4F6",
+                        "background-dark": "#0A0A0A",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "2rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-item {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .nav-item:hover {
+            transform: translateX(1.5rem);
+        }
+        .modal-enter {
+            animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark min-h-screen flex items-center justify-center p-4 md:p-10">
+<div class="relative w-full max-w-7xl aspect-[16/9] bg-white dark:bg-zinc-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col p-8 md:p-16 modal-enter border border-zinc-100 dark:border-zinc-800" id="nav-overlay">
+<div class="flex justify-between items-start w-full">
+<div class="flex flex-col">
+<h2 class="text-lg md:text-xl font-bold text-zinc-900 dark:text-zinc-100">Jayant Sharma</h2>
+<p class="text-zinc-500 dark:text-zinc-400 font-medium">Sr. Product Designer</p>
+</div>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors group">
+<span class="material-icons text-zinc-900 dark:text-zinc-100 group-hover:rotate-90 transition-transform duration-300">close</span>
+</button>
+</div>
+<div class="flex-grow flex flex-col justify-center gap-2 md:gap-4 mt-8">
+<nav class="flex flex-col items-start">
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">Home</span>
+</a>
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">About me</span>
+</a>
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">Work Experience</span>
+</a>
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">Skills</span>
+</a>
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">Education</span>
+</a>
+<a class="nav-item group flex items-center" href="#">
+<span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-primary transition-colors">Projects</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto flex flex-col md:flex-row justify-between items-end w-full gap-6">
+<div class="flex items-center gap-2">
+<span class="material-icons text-sm text-purple-500">favorite</span>
+<a class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors border-b border-zinc-200 dark:border-zinc-700 pb-0.5" href="mailto:hello@jayantsharma.com">hello@jayantsharma.com</a>
+</div>
+<div class="text-right flex flex-col items-end">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-xl">👋</span>
+<p class="text-zinc-600 dark:text-zinc-400 font-medium">Nice to see you!</p>
+</div>
+<p class="text-zinc-500 dark:text-zinc-500 text-sm max-w-xs leading-relaxed">
+                    I'm Jayant, a product designer from India specializing in frictionless user flows.
+                </p>
+<p class="text-zinc-400 dark:text-zinc-600 text-xs mt-4">© 2024</p>
+</div>
+</div>
+<div class="absolute top-1/2 right-10 -translate-y-1/2 w-64 h-64 bg-purple-100 dark:bg-purple-900/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<div class="absolute bottom-10 left-10 w-48 h-48 bg-blue-100 dark:bg-blue-900/10 rounded-full blur-[80px] pointer-events-none -z-10"></div>
+</div>
+
+</body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Selected Projects | Alexander Chase</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-white overflow-x-hidden antialiased;
+            }
+        }
+        .project-card {
+            @apply border border-white/10 p-8 md:p-12 hover:border-white/40 transition-all duration-500 bg-white/[0.02] flex flex-col justify-between aspect-square md:aspect-video lg:aspect-square;
+        }
+        .category-line {
+            @apply h-[1px] w-full bg-gradient-to-r from-white/20 via-white/5 to-transparent mt-4 mb-12;
+        }
+        .nav-link {
+            @apply text-xs font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors duration-300;
+        }
+    </style>
+    <script src="navigation.js" defer></script>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans">
+    <header class="w-full fixed top-0 z-50 px-6 py-8 bg-background-dark/80 backdrop-blur-md">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="bg-white text-black p-2 rounded-lg">
+                    <span class="material-symbols-outlined font-bold">folder_shared</span>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="text-sm font-extrabold uppercase tracking-wider">Alexander Chase</span>
+                    <span class="text-[10px] text-white/50 uppercase tracking-[0.2em]">Selected Projects</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <button
+                    class="flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
+                    Say Hello <span class="material-symbols-outlined text-sm">north_east</span>
+                </button>
+                <button class="bg-white text-black p-2 rounded-full flex items-center justify-center menu-trigger">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow pt-48 pb-32">
+        <div class="max-w-[1400px] mx-auto px-6">
+            <div class="mb-24">
+                <h1
+                    class="text-6xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter mb-4 leading-none">
+                    Selected Works</h1>
+                <p class="text-white/40 text-lg max-w-2xl uppercase tracking-widest font-medium">A curation of
+                    high-impact engineering and design systems.</p>
+            </div>
+            <div class="space-y-32">
+                <section>
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Engineering</h2>
+                        <span class="text-xs font-bold uppercase tracking-[0.3em] text-white/30 mb-2">Systems &amp;
+                            Builds</span>
+                    </div>
+                    <div class="category-line"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
+                                Nexus Cloud</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">Distributed mesh
+                                network for enterprise edge computing.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
+                                Core Engine</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">High-throughput data
+                                processing kernel in Rust.</p>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Product Design</h2>
+                        <span class="text-xs font-bold uppercase tracking-[0.3em] text-white/30 mb-2">Interfaces &amp;
+                            Logic</span>
+                    </div>
+                    <div class="category-line"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
+                                Aether OS</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">Minimalist operating
+                                system for spatial computing.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">
+                                Mono System</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">A multi-platform
+                                design framework for finance.</p>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <h2 class="text-4xl md:text-6xl font-black uppercase tracking-tighter">Architecture</h2>
+                        <span class="text-xs font-bold uppercase tracking-[0.3em] text-white/30 mb-2">Physical
+                            Structures</span>
+                    </div>
+                    <div class="category-line"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">The
+                                Void</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">Subterranean data
+                                center with passive cooling.</p>
+                        </div>
+                        <div class="project-card">
+                            <h3 class="text-4xl md:text-5xl font-black uppercase tracking-tighter leading-none mb-6">Sky
+                                Pavilion</h3>
+                            <p class="text-white/50 text-sm uppercase tracking-widest font-medium">Brutalist retreat
+                                focusing on light and shadow.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+    <footer class="w-full py-12 px-6 border-t border-white/5">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="flex gap-8">
+                <a class="nav-link" href="#">LinkedIn</a>
+                <a class="nav-link" href="#">GitHub</a>
+                <a class="nav-link" href="#">Dribbble</a>
+            </div>
+            <div class="flex flex-col items-center">
+                <h1
+                    class="text-[10vw] leading-[0.8] font-black uppercase tracking-tighter text-white opacity-10 pointer-events-none select-none">
+                    AC
+                </h1>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest text-white/40">
+                © 2024 Alexander Chase • Based in SF
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

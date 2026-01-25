@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About | Alexander Chase</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-white overflow-x-hidden antialiased;
+            }
+        }
+        .text-outline {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+            color: transparent;
+        }
+        .narrative-p {
+            @apply text-lg md:text-xl leading-relaxed text-white/70 mb-6 font-light;
+        }
+        .stat-card {
+            @apply border-l border-white/20 pl-6 py-2;
+        }
+    </style>
+    <script src="navigation.js" defer></script>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans">
+    <header class="w-full fixed top-0 z-50 px-6 py-6 mix-blend-difference">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between">
+            <a class="flex items-center gap-4 group" href="index.html">
+                <div class="bg-white text-black p-2 rounded-lg group-hover:scale-105 transition-transform">
+                    <span class="material-symbols-outlined font-bold">folder_shared</span>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="text-sm font-extrabold uppercase tracking-wider">Alexander Chase</span>
+                    <span class="text-[10px] text-white/50 uppercase tracking-[0.2em]">Senior Software Architect</span>
+                </div>
+            </a>
+            <div class="flex items-center gap-6">
+                <button
+                    class="bg-white text-black px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white/90 transition-all flex items-center gap-2">
+                    Say Hello <span class="material-symbols-outlined text-sm">north_east</span>
+                </button>
+                <button class="bg-white text-black p-2 rounded-full flex items-center justify-center menu-trigger">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow pt-40 pb-20 relative">
+        <div class="absolute top-20 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
+            <h1 class="text-[25vw] font-black uppercase tracking-tighter text-white opacity-[0.03] leading-none">
+                ABOUT
+            </h1>
+        </div>
+        <div class="max-w-[1400px] mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+                <div class="w-full lg:w-3/5">
+                    <h2 class="text-5xl md:text-7xl font-extrabold mb-12 tracking-tight leading-[1.1]">
+                        Architecting the future of <span class="text-white/40 italic">digital infrastructure.</span>
+                    </h2>
+                    <div class="max-w-2xl">
+                        <p class="narrative-p">
+                            With over a decade of experience in the technology sector, I specialize in bridging the gap
+                            between complex backend architectures and intuitive user experiences. My approach is rooted
+                            in the belief that great software should be as invisible as it is powerful.
+                        </p>
+                        <p class="narrative-p">
+                            Throughout my career, I've had the privilege of leading technical teams at global scale,
+                            shipping products that touch millions of users daily. I focus on distributed systems,
+                            cloud-native solutions, and the implementation of robust design systems that empower
+                            developers and designers alike.
+                        </p>
+                        <p class="narrative-p">
+                            When I'm not deep-diving into codebases or mapping out system flows, I'm usually exploring
+                            the intersection of minimalist aesthetics and functional performance. I believe the best
+                            solutions are born from a deep understanding of human needs combined with uncompromising
+                            technical excellence.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-white/10">
+                        <div class="stat-card">
+                            <span class="block text-2xl font-bold">10+</span>
+                            <span class="text-[10px] uppercase tracking-widest text-white/40">Years Exp</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="block text-2xl font-bold">50+</span>
+                            <span class="text-[10px] uppercase tracking-widest text-white/40">Launch Cycles</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="block text-2xl font-bold">12</span>
+                            <span class="text-[10px] uppercase tracking-widest text-white/40">Design Awards</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full lg:w-2/5 flex flex-col gap-12">
+                    <div class="relative group">
+                        <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-zinc-900">
+                            <img alt="Professional portrait of Alexander Chase"
+                                class="w-full h-full object-cover grayscale brightness-95 contrast-110"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0xL1vc__7qla-ol80idCt4vcD59Rgo99U0WChoHznDUywvHE_2wR-vHmSLcoYiucxq05mybxvaAZH-pW0O2IARqAC4cQV7bEQ2Ia96FjQLNw-zBlvRZ2p9SGQlpdLnajoRYG88tcqnJsHt2meeoyYTpowfI-GJ6eJGKrni2sXrqmy1pqBdYSDN8lHrOhhP1SeiN9Kbeq-Ggw1G3DfyUX35NfwVO1dP8rMQPZSt9_nMfK1tpoaHmOM3-6mKQnmYYxBvnocdfBSOMdY" />
+                        </div>
+                        <div
+                            class="absolute -bottom-6 -right-6 bg-white text-black p-6 rounded-2xl shadow-2xl hidden md:block">
+                            <span class="material-symbols-outlined text-4xl">verified</span>
+                            <p class="text-[10px] font-black uppercase tracking-widest mt-2">Available
+                                for<br />Consultation</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <h3 class="text-xs font-black uppercase tracking-[0.3em] text-white/40">Core Expertise</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">Cloud
+                                Architecture</span>
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">Next.js
+                                / React</span>
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">Distributed
+                                Systems</span>
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">UI/UX
+                                Strategy</span>
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">Kubernetes</span>
+                            <span
+                                class="px-4 py-2 border border-white/20 rounded-full text-xs font-bold hover:bg-white hover:text-black transition-all cursor-default">Rust
+                                / Go</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="w-full py-12 px-6 border-t border-white/5 mt-auto">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex gap-8 text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">
+                <a class="hover:text-white transition-colors" href="#">LinkedIn</a>
+                <a class="hover:text-white transition-colors" href="#">GitHub</a>
+                <a class="hover:text-white transition-colors" href="#">Layers</a>
+                <a class="hover:text-white transition-colors" href="#">X / Twitter</a>
+            </div>
+            <div class="flex items-center gap-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white/20">
+                <span>Currently in San Francisco</span>
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            </div>
+            <div class="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40">
+                © 2024 Alexander Chase — Portfolio
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

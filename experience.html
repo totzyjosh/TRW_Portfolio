@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Alexander Chase | Work Experience</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffffff",
+                        "background-dark": "#000000",
+                    },
+                    fontFamily: {
+                        "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-background-dark text-white overflow-x-hidden antialiased;
+            }
+        }
+        .experience-card {
+            @apply border-b border-white/10 py-12 flex flex-col md:flex-row gap-8 md:gap-16 items-start transition-all duration-300;
+        }
+        .experience-card:hover {
+            @apply border-white/30;
+        }
+        .achievement-dot {
+            @apply w-1.5 h-1.5 bg-white/40 rounded-full mt-2 shrink-0;
+        }
+    </style>
+    <script src="navigation.js" defer></script>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans">
+    <header class="w-full fixed top-0 z-50 px-6 py-6 mix-blend-difference">
+        <div class="max-w-[1400px] mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="bg-white text-black p-2 rounded-lg">
+                    <span class="material-symbols-outlined font-bold">folder_shared</span>
+                </div>
+                <div class="flex flex-col leading-tight">
+                    <span class="text-sm font-extrabold uppercase tracking-wider">Alexander Chase</span>
+                    <span class="text-[10px] text-white/50 uppercase tracking-[0.2em]">Senior Software Architect</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <button
+                    class="hidden md:flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
+                    Say Hello <span class="material-symbols-outlined text-sm">north_east</span>
+                </button>
+                <button class="bg-white text-black p-2 rounded-full flex items-center justify-center menu-trigger">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-grow pt-40 pb-24 px-6">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="mb-20">
+                <h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter mb-4">Experience</h1>
+                <p class="text-white/40 text-sm uppercase tracking-[0.3em] font-medium">Selected roles &amp; career
+                    highlights</p>
+            </div>
+            <div class="flex flex-col">
+                <div class="experience-card">
+                    <div class="w-full md:w-1/4">
+                        <span class="text-sm font-bold text-white/40 tracking-widest uppercase">2021 — Present</span>
+                    </div>
+                    <div class="w-full md:w-1/4">
+                        <h3 class="text-2xl font-bold uppercase tracking-tight mb-1">Global Tech Lead</h3>
+                        <p class="text-white/60 font-medium">Enterprise Solutions Inc.</p>
+                    </div>
+                    <div class="w-full md:w-2/4">
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Architected a distributed microservices
+                                    framework handling 100M+ daily transactions with 99.99% uptime.</p>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Directed a cross-functional team of 45
+                                    engineers across 3 continents to modernize legacy infrastructure.</p>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Reduced cloud infrastructure overhead by
+                                    40% through aggressive containerization and serverless optimization.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-card">
+                    <div class="w-full md:w-1/4">
+                        <span class="text-sm font-bold text-white/40 tracking-widest uppercase">2018 — 2021</span>
+                    </div>
+                    <div class="w-full md:w-1/4">
+                        <h3 class="text-2xl font-bold uppercase tracking-tight mb-1">Senior Architect</h3>
+                        <p class="text-white/60 font-medium">Apex Digital Group</p>
+                    </div>
+                    <div class="w-full md:w-2/4">
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Pioneered the company's internal design
+                                    system used by 200+ developers, accelerating time-to-market by 30%.</p>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Implemented high-performance UI components
+                                    for real-time data visualization platforms.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="experience-card border-none">
+                    <div class="w-full md:w-1/4">
+                        <span class="text-sm font-bold text-white/40 tracking-widest uppercase">2014 — 2018</span>
+                    </div>
+                    <div class="w-full md:w-1/4">
+                        <h3 class="text-2xl font-bold uppercase tracking-tight mb-1">Frontend Engineer</h3>
+                        <p class="text-white/60 font-medium">Visionary Labs</p>
+                    </div>
+                    <div class="w-full md:w-2/4">
+                        <ul class="space-y-4">
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Developed core interactive features for an
+                                    award-winning consumer-facing web application.</p>
+                            </li>
+                            <li class="flex gap-4">
+                                <span class="achievement-dot"></span>
+                                <p class="text-lg text-white/80 leading-snug">Optimized application performance reducing
+                                    initial load times by 2 seconds across mobile devices.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-32 pt-16 border-t border-white/5">
+                <div class="flex flex-wrap gap-2 max-w-4xl">
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">Cloud
+                        Architecture</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">React
+                        / Next.js</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">Node.js
+                        Ecosystem</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">Kubernetes</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">TypeScript</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">System
+                        Design</span>
+                    <span
+                        class="px-5 py-2 rounded-full border border-white/10 text-xs font-bold uppercase tracking-widest text-white/50 hover:bg-white hover:text-black transition-all cursor-default">CI/CD
+                        Pipelines</span>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="w-full py-12 px-6 border-t border-white/5">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="w-full md:w-1/3">
+                <h2 class="text-[12vw] leading-none font-black uppercase tracking-tighter text-white opacity-10">AC</h2>
+            </div>
+            <div class="flex flex-col md:flex-row gap-12 text-xs font-bold uppercase tracking-[0.2em] text-white/40">
+                <div class="flex flex-col gap-4">
+                    <span class="text-white">Social</span>
+                    <a class="hover:text-white transition-colors" href="#">LinkedIn</a>
+                    <a class="hover:text-white transition-colors" href="#">GitHub</a>
+                    <a class="hover:text-white transition-colors" href="#">Dribbble</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <span class="text-white">Contact</span>
+                    <a class="hover:text-white transition-colors" href="#">Email Me</a>
+                    <a class="hover:text-white transition-colors" href="#">Book a Call</a>
+                </div>
+            </div>
+            <div class="text-xs font-bold uppercase tracking-widest text-white/40 text-right">
+                © 2024 Alexander Chase<br />Based in San Francisco
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

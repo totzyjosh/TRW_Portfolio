@@ -205,7 +205,7 @@
             }
         });
     </script>
-    <script src="navigation.js" defer></script>
+
 </head>
 
 <body class="min-h-screen flex flex-col font-sans">
@@ -781,29 +781,7 @@
     </footer>
 
     <!-- Contact Modal -->
-    <div id="contact-overlay"
-        class="fixed inset-0 z-[100] bg-black/90 hidden items-center justify-center backdrop-blur-xl transition-opacity duration-500">
-        <div class="bg-zinc-900 border border-white/10 p-8 rounded-2xl max-w-md w-full relative">
-            <button id="contact-close-btn" class="absolute top-4 right-4 text-white/50 hover:text-white">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-            <h2 class="text-3xl font-black uppercase tracking-tighter mb-2">Get in Touch</h2>
-            <p class="text-white/50 mb-8">Let's build something extraordinary together.</p>
-
-            <div class="space-y-6">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Email</label>
-                    <a href="mailto:jalara12082003@gmail.com"
-                        class="text-xl font-bold hover:text-blue-400 transition-colors">jalara12082003@gmail.com</a>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest text-white/40 mb-2">Phone</label>
-                    <a href="tel:+639163755223" class="text-xl font-bold hover:text-blue-400 transition-colors">+63 0916
-                        375 5223</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Contact Modal Removed (Defined in navigation.js) -->
     <!-- Smart Fixed Footer -->
     <div id="smart-footer"
         class="fixed bottom-0 w-full px-6 py-4 md:py-6 border-t border-white/5 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent z-[60] backdrop-blur-sm transition-transform duration-300 transform translate-y-0">
@@ -834,6 +812,7 @@
         </div>
     </div>
 
+    <script src="navigation.js?v=20260126"></script>
 </body>
 
 </html>

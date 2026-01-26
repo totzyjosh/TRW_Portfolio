@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // IDEMPOTENCY CHECK: Prevent double-execution
+    if (document.getElementById('nav-overlay')) return;
+
     const navHtml = `
     <!-- Navigation Overlay -->
     <div id="nav-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-10 bg-black/50 backdrop-blur-sm">
@@ -87,8 +90,33 @@ document.addEventListener('DOMContentLoaded', () => {
             0% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); }
             100% { transform: scale(0.5) translateY(-50px); opacity: 0; filter: blur(10px); }
         }
-        .animate-suckOut { 
-            animation: suckOut 0.4s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards; 
+        .animate-suckOut { animation: suckOut 0.35s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards; }
+        
+        #say-hello-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #fff);
+            transform: translate(-50%, -50%);
+            animation: rotateBorder 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        #say-hello-btn:hover::before { opacity: 1; }
+        @keyframes rotateBorder {
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        #say-hello-btn::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            background: radial-gradient(70px circle at var(--x) var(--y), rgba(255,255,255,0.25), transparent 50%), #050505;
+            border-radius: 9999px;
+            z-index: 0;
         }
     </style>
     `;
@@ -133,43 +161,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactOverlay = document.getElementById('contact-overlay');
     const contactContent = contactOverlay.querySelector('.relative');
     const contactCloseBtn = document.getElementById('contact-close-btn');
-    const contactTriggers = document.querySelectorAll('.contact-trigger');
+    const contactTriggers = document.querySelectorAll('.contact-trigger'); // The "Say Hello" button
     const contactTagline = document.getElementById('contact-tagline');
 
-    let typewriterTimeout;
+    let typewriterTimeout; // Variable to store timeout ID
 
-    function loopTagline() {
+    function typeTagline() {
         if (!contactTagline) return;
         const text = "Let's build something extraordinary.";
         contactTagline.textContent = "";
 
+        // Clear any previous timeout
         if (typewriterTimeout) clearTimeout(typewriterTimeout);
 
         let i = 0;
-        let isDeleting = false;
 
         function type() {
-            const speed = isDeleting ? 30 : 50;
-
-            if (!isDeleting && i <= text.length) {
-                contactTagline.textContent = text.substring(0, i);
+            if (i < text.length) {
+                contactTagline.textContent += text.charAt(i);
                 i++;
-                if (i > text.length) {
-                    isDeleting = true;
-                    typewriterTimeout = setTimeout(type, 2000); // Wait before deleting
-                    return;
-                }
-            } else if (isDeleting && i >= 0) {
-                contactTagline.textContent = text.substring(0, i);
-                i--;
-                if (i < 0) {
-                    isDeleting = false;
-                    i = 0;
-                    typewriterTimeout = setTimeout(type, 500); // Wait before retyping
-                    return;
-                }
+                typewriterTimeout = setTimeout(type, 30); // Store ID
             }
-            typewriterTimeout = setTimeout(type, speed);
         }
         type();
     }
@@ -181,13 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
         contactContent.classList.add('animate-slideIn');
         document.body.style.overflow = 'hidden';
 
-        loopTagline();
+        // Start typewriter
+        setTimeout(typeTagline, 100);
     }
 
     function closeContact() {
         contactContent.classList.remove('animate-slideIn');
         contactContent.classList.add('animate-suckOut');
 
+        // Clear typewriter if closing mid-type
         if (typewriterTimeout) clearTimeout(typewriterTimeout);
 
         setTimeout(() => {
@@ -315,4 +329,16 @@ document.addEventListener('DOMContentLoaded', () => {
     revealElements.forEach(el => revealObserver.observe(el));
 
     revealElements.forEach(el => revealObserver.observe(el));
+
+    // Button Spotlight Effect
+    const sayHelloBtn = document.getElementById('say-hello-btn');
+    if (sayHelloBtn) {
+        sayHelloBtn.addEventListener('mousemove', (e) => {
+            const rect = sayHelloBtn.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            sayHelloBtn.style.setProperty('--x', `${x}px`);
+            sayHelloBtn.style.setProperty('--y', `${y}px`);
+        });
+    }
 });

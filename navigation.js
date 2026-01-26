@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </a>
                     <a href="resumeoutdated.pdf" target="_blank" class="nav-item group flex items-center">
                         <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-teal-400 hover:to-cyan-600 transition-all duration-300">Resume</span>
+                        <span class="material-symbols-outlined ml-4 text-4xl md:text-6xl text-zinc-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all duration-300">download</span>
                     </a>
                 </nav>
             </div>

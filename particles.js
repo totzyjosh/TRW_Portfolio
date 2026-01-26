@@ -5,7 +5,7 @@ let width, height;
 let particles = [];
 
 // Configuration
-const particleCount = 250; // Increased from 100
+let particleCount = window.innerWidth < 768 ? 50 : 250; // Dynamic count: 50 for mobile, 250 for desktop
 const connectionDistance = 180; // Increased reach
 const mouseDistance = 300; // Increased interaction radius
 const particleSpeed = 0.6; // Slightly faster
@@ -14,6 +14,13 @@ const particleSpeed = 0.6; // Slightly faster
 function resize() {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+
+    // Update particle count on resize if device orientation changes
+    const targetCount = window.innerWidth < 768 ? 50 : 250;
+    if (particleCount !== targetCount) {
+        particleCount = targetCount;
+        init();
+    }
 }
 window.addEventListener('resize', resize);
 resize();

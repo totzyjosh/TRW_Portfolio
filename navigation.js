@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const navHtml = `
     <!-- Navigation Overlay -->
     <div id="nav-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-10 bg-black/50 backdrop-blur-sm">
-        <div class="relative w-full max-w-7xl aspect-[16/9] bg-white dark:bg-zinc-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col p-8 md:p-16 border border-zinc-100 dark:border-zinc-800 hover:border-white hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] transition-all duration-500 animate-slideIn">
-            <div class="flex justify-between items-start w-full">
+        <div class="relative w-full max-w-7xl min-h-[500px] md:min-h-0 md:aspect-[16/9] bg-white dark:bg-zinc-900 rounded-[2rem] md:rounded-[3rem] shadow-2xl overflow-hidden flex flex-col p-6 md:p-16 border border-zinc-100 dark:border-zinc-800 hover:border-white hover:shadow-[0_0_30px_rgba(255,255,255,0.6)] transition-all duration-500 animate-slideIn">
+            <div class="flex justify-between items-start w-full z-10">
                 <div class="flex flex-col">
                     <h2 class="text-lg md:text-xl font-bold text-zinc-900 dark:text-zinc-100">JOSHUA ADRIANE A. LARA</h2>
                     <p class="text-zinc-500 dark:text-zinc-400 font-medium">Computer Engineering Student</p>
@@ -13,27 +13,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
             </div>
             <div class="flex-grow flex flex-col justify-center gap-2 md:gap-4 mt-8">
-                <nav class="flex flex-col items-start">
+                <nav class="flex flex-col items-start space-y-2 md:space-y-0">
                     <a href="#home" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-purple-400 hover:to-pink-600 transition-all duration-300">Home</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-purple-400 hover:to-pink-600 transition-all duration-300">Home</span>
                     </a>
                     <a href="#experience" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-400 hover:to-cyan-600 transition-all duration-300">Experience</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-blue-400 hover:to-cyan-600 transition-all duration-300">Experience</span>
                     </a>
                     <a href="#projects" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-600 transition-all duration-300">Projects</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-green-400 hover:to-emerald-600 transition-all duration-300">Projects</span>
                     </a>
                     <a href="#skills" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-yellow-400 hover:to-orange-600 transition-all duration-300">Skills</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-yellow-400 hover:to-orange-600 transition-all duration-300">Skills</span>
                     </a>
                     <a href="#education" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-red-400 hover:to-rose-600 transition-all duration-300">Education</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-red-400 hover:to-rose-600 transition-all duration-300">Education</span>
                     </a>
                     <a href="#about" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-indigo-400 hover:to-violet-600 transition-all duration-300">About</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-indigo-400 hover:to-violet-600 transition-all duration-300">About</span>
                     </a>
                     <a href="resumeoutdated.pdf" target="_blank" class="nav-item group flex items-center">
-                        <span class="text-5xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-teal-400 hover:to-cyan-600 transition-all duration-300">Resume</span>
+                        <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-teal-400 hover:to-cyan-600 transition-all duration-300">Resume</span>
                     </a>
                 </nav>
             </div>

@@ -112,11 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
         navContent.classList.remove('animate-suckOut');
         navContent.classList.add('animate-slideIn');
         document.body.style.overflow = 'hidden';
+
+        // Animate Hamburger to X
+        navTriggers.forEach(btn => btn.classList.add('menu-open'));
     }
 
     function closeNav() {
         navContent.classList.remove('animate-slideIn');
         navContent.classList.add('animate-suckOut');
+
+        // Revert Hamburger
+        navTriggers.forEach(btn => btn.classList.remove('menu-open'));
 
         setTimeout(() => {
             navOverlay.classList.add('hidden');
@@ -315,5 +321,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    revealElements.forEach(el => revealObserver.observe(el));
+    // --- Magnetic Button Logic ---
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            // Remove transition for instant response
+            btn.style.transition = 'transform 0.1s linear';
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            // Restore smooth transition for reset
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1)';
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
 });

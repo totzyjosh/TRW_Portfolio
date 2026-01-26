@@ -23,6 +23,17 @@
                     },
                     fontFamily: {
                         "sans": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    animation: {
+                        'spin-slow': 'spin 60s linear infinite',
+                        'spin-slower': 'spin 120s linear infinite',
+                        'spin-reverse-slower': 'spin-reverse 100s linear infinite',
+                    },
+                    keyframes: {
+                        'spin-reverse': {
+                            'from': { transform: 'rotate(360deg)' },
+                            'to': { transform: 'rotate(0deg)' },
+                        }
                     }
                 },
             },
@@ -209,6 +220,18 @@
 </head>
 
 <body class="min-h-screen flex flex-col font-sans">
+    <!-- Animated Black Hole Video Background -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover grayscale opacity-40 mix-blend-screen">
+            <source src="Black Hole 4K Live Wallpaper.mp4" type="video/mp4">
+        </video>
+        <!-- Gradients to ensure text readability -->
+        <div
+            class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-background-dark opacity-80">
+        </div>
+        <div class="absolute inset-0 bg-background-dark/30"></div>
+    </div>
+
     <!-- SVG Filters for Text Effects -->
     <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <defs>
@@ -259,11 +282,16 @@
             </div>
             <div class="flex items-center gap-6">
                 <button
-                    class="contact-trigger hidden md:flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
-                    Say Hello <span class="material-symbols-outlined text-sm">north_east</span>
+                    class="group contact-trigger hidden md:flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
+                    Say Hello <span
+                        class="material-symbols-outlined text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
                 </button>
-                <button class="bg-white text-black p-2 rounded-full flex items-center justify-center menu-trigger">
-                    <span class="material-symbols-outlined">menu</span>
+                <button
+                    class="bg-white text-black w-12 h-12 rounded-full flex flex-col items-center justify-center gap-1.5 menu-trigger relative group magnetic-btn transition-transform duration-300 ease-out">
+                    <span
+                        class="w-5 h-0.5 bg-black rounded-full transition-all duration-300 group-[.menu-open]:rotate-45 group-[.menu-open]:translate-y-1 group-hover:rotate-45 group-hover:translate-y-1"></span>
+                    <span
+                        class="w-5 h-0.5 bg-black rounded-full transition-all duration-300 group-[.menu-open]:-rotate-45 group-[.menu-open]:-translate-y-1 group-hover:-rotate-45 group-hover:-translate-y-1"></span>
                 </button>
             </div>
         </div>
@@ -557,6 +585,55 @@
                                 </ul>
                             </div>
                         </div>
+
+                        <!-- Animated Verification Banner -->
+                        <div class="w-full py-20 overflow-hidden relative select-none pointer-events-none">
+                            <style>
+                                @keyframes marquee-reverse {
+                                    0% {
+                                        transform: translateX(-50%);
+                                    }
+
+                                    100% {
+                                        transform: translateX(0);
+                                    }
+                                }
+
+                                .animate-marquee-reverse {
+                                    display: flex;
+                                    width: fit-content;
+                                    animation: marquee-reverse 25s linear infinite;
+                                }
+                            </style>
+
+                            <!-- Row 1: Left Scroll -->
+                            <div class="flex whitespace-nowrap animate-marquee mb-4">
+                                <span
+                                    class="text-6xl md:text-8xl font-black text-white/5 uppercase tracking-tighter px-8">
+                                    • Verified Credentials • Technical Competence • Proven Expertise • Verified
+                                    Credentials • Technical Competence • Proven Expertise
+                                </span>
+                                <span
+                                    class="text-6xl md:text-8xl font-black text-white/5 uppercase tracking-tighter px-8">
+                                    • Verified Credentials • Technical Competence • Proven Expertise • Verified
+                                    Credentials • Technical Competence • Proven Expertise
+                                </span>
+                            </div>
+
+                            <!-- Row 2: Right Scroll -->
+                            <div class="flex whitespace-nowrap animate-marquee-reverse">
+                                <span
+                                    class="text-6xl md:text-8xl font-black text-white/10 uppercase tracking-tighter px-8">
+                                    • System Configuration • Python Programming • Network Administration • System
+                                    Configuration • Python Programming • Network Administration
+                                </span>
+                                <span
+                                    class="text-6xl md:text-8xl font-black text-white/10 uppercase tracking-tighter px-8">
+                                    • System Configuration • Python Programming • Network Administration • System
+                                    Configuration • Python Programming • Network Administration
+                                </span>
+                            </div>
+                        </div>
                     </section>
                 </div>
             </div>
@@ -797,6 +874,19 @@
                     <img src="github_icon.png" alt="GitHub"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
+
+                <!-- Space Invaders Trigger -->
+                <button onclick="window.openSpaceInvaders()"
+                    class="flex items-center gap-2 group hover:scale-105 transition-transform duration-300"
+                    title="Are you bored? Play a game!">
+                    <span
+                        class="material-symbols-outlined text-white transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,1)]">videogame_asset</span>
+                    <span
+                        class="text-[10px] font-bold uppercase tracking-wider text-white/60 group-hover:text-white transition-colors hidden sm:inline-block">
+                        Bored<span
+                            class="inline-block group-hover:animate-bounce group-hover:text-white font-black ml-0.5">?</span>
+                    </span>
+                </button>
             </div>
 
             <a id="scroll-hint" href="#experience"
@@ -813,6 +903,7 @@
     </div>
 
     <script src="navigation.js?v=20260126"></script>
+    <script src="space_invaders.js"></script>
 </body>
 
 </html>

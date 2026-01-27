@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <a href="#about" class="nav-item group flex items-center">
                         <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-indigo-400 hover:to-violet-600 transition-all duration-300">About</span>
                     </a>
-                    <a href="resumeoutdated.pdf" target="_blank" class="nav-item group flex items-center">
+                    <a href="updatedresume.pdf" target="_blank" class="nav-item group flex items-center">
                         <span class="text-4xl md:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-teal-400 hover:to-cyan-600 transition-all duration-300">Resume</span>
                         <span class="material-symbols-outlined ml-4 text-4xl md:text-6xl text-zinc-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all duration-300">download</span>
                     </a>
@@ -221,6 +221,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Smart Header Logic
     const header = document.querySelector('header');
+    const headerText = document.getElementById('header-text');
+    const headerFolder = document.getElementById('header-folder');
     header.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
 
     let isScrolling;
@@ -235,9 +237,46 @@ document.addEventListener('DOMContentLoaded', () => {
         footer.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
     }
 
+    // --- Folder Animation Logic (Setup) ---
+    // State tracking on the element itself to persist across scroll events
+    if (headerFolder && headerText) {
+        headerFolder._isHovering = false;
+
+        // Function to update state based on Scroll AND Hover
+        window.updateHeaderState = function () {
+            const scrollY = window.scrollY;
+            const isHovering = headerFolder._isHovering;
+
+            if (scrollY > 50 && !isHovering) {
+                // Suck into folder
+                headerText.style.transform = 'translateX(-40px) scale(0.5)';
+                headerText.style.opacity = '0';
+                headerText.style.pointerEvents = 'none';
+            } else {
+                // Pop out
+                headerText.style.transform = 'translateX(0) scale(1)';
+                headerText.style.opacity = '1';
+                headerText.style.pointerEvents = 'auto';
+            }
+        };
+
+        // Bind Hover Events (Once)
+        headerFolder.addEventListener('mouseenter', () => {
+            headerFolder._isHovering = true;
+            if (window.updateHeaderState) window.updateHeaderState();
+        });
+        headerFolder.addEventListener('mouseleave', () => {
+            headerFolder._isHovering = false;
+            if (window.updateHeaderState) window.updateHeaderState();
+        });
+    }
+
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
         const homeSectionHeight = window.innerHeight * 0.8;
+
+        // Run Folder Animation Check
+        if (window.updateHeaderState) window.updateHeaderState();
 
         // Check if we're in the About section
         let isInAboutSection = false;

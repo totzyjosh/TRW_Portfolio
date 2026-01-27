@@ -28,8 +28,16 @@
                         'spin-slow': 'spin 60s linear infinite',
                         'spin-slower': 'spin 120s linear infinite',
                         'spin-reverse-slower': 'spin-reverse 100s linear infinite',
+                        'pop-cycle': 'popCycle 9s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite', // 3 items x 3s each
                     },
                     keyframes: {
+                        'popCycle': {
+                            '0%, 100%': { transform: 'scale(0)', opacity: '0' },
+                            '5%': { transform: 'scale(1.1)', opacity: '1' },
+                            '10%': { transform: 'scale(1)', opacity: '1' },
+                            '30%': { transform: 'scale(1)', opacity: '1' },
+                            '35%': { transform: 'scale(0)', opacity: '0' },
+                        },
                         'spin-reverse': {
                             'from': { transform: 'rotate(360deg)' },
                             'to': { transform: 'rotate(0deg)' },
@@ -157,6 +165,19 @@
             opacity: 1;
             transform: translateX(0);
         }
+        
+        /* Typing Animation Cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+            margin-left: 2px;
+            color: white;
+            font-weight: bold;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -214,6 +235,62 @@
             if (skillsSection) {
                 skillsObserver.observe(skillsSection);
             }
+
+            // Typing Animation Logic (Repeats on Scroll)
+            const typingElements = document.querySelectorAll('.typing-text');
+            const typingObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const element = entry.target;
+
+                    if (entry.isIntersecting) {
+                        // Start animation if not active
+                        if (!element.hasAttribute('data-typing-active')) {
+                            element.setAttribute('data-typing-active', 'true');
+                            const text = element.getAttribute('data-text');
+                            element.textContent = '';
+                            element.classList.add('typing-cursor');
+
+                            let i = 0;
+                            const type = () => {
+                                // Stop if attribute was removed (scrolled away)
+                                if (!element.hasAttribute('data-typing-active')) return;
+
+                                if (i < text.length) {
+                                    element.textContent += text.charAt(i);
+                                    i++;
+                                    // Store timeout ID to clear if needed
+                                    element.typingTimeout = setTimeout(type, 50 + Math.random() * 30);
+                                } else {
+                                    // Remove cursor after typing finishes
+                                    setTimeout(() => {
+                                        if (element.hasAttribute('data-typing-active')) {
+                                            element.classList.remove('typing-cursor');
+                                        }
+                                    }, 2000);
+                                }
+                            };
+                            type();
+                        }
+                    } else {
+                        // Reset animation when scrolled away
+                        element.removeAttribute('data-typing-active');
+                        element.textContent = ''; // Clear text
+                        element.classList.remove('typing-cursor');
+                        if (element.typingTimeout) {
+                            clearTimeout(element.typingTimeout);
+                        }
+                    }
+                });
+            }, { threshold: 0.2 }); // Reset when 20% visible or less
+
+            typingElements.forEach(el => {
+                // Save original text and clear it
+                if (!el.getAttribute('data-text')) {
+                    el.setAttribute('data-text', el.textContent.trim());
+                    el.textContent = ''; // Hide text initially
+                }
+                typingObserver.observe(el);
+            });
         });
     </script>
     <style>
@@ -390,10 +467,12 @@
     <header class="w-full fixed top-0 z-50 px-6 py-6 mix-blend-difference">
         <div class="max-w-[1400px] mx-auto flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <div class="bg-white text-black p-2 rounded-lg">
+                <div id="header-folder"
+                    class="bg-white text-black p-2 rounded-lg transition-transform duration-300 z-50 relative">
                     <span class="material-symbols-outlined font-bold">folder_shared</span>
                 </div>
-                <div class="flex flex-col leading-tight">
+                <div id="header-text"
+                    class="flex flex-col leading-tight transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] origin-left">
                     <span class="text-sm font-extrabold uppercase tracking-wider">JOSHUA ADRIANE A. LARA</span>
                     <span class="text-[10px] text-white/50 uppercase tracking-[0.2em]">Computer Engineering
                         Student</span>
@@ -469,9 +548,17 @@
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 flex justify-center items-center relative">
-                    <div class="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px]">
+                    <div class="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px] group">
+                        <!-- Rotating Light Glow -->
                         <div
-                            class="absolute inset-0 rounded-full border border-white/10 bg-gradient-to-b from-white/5 to-transparent overflow-hidden">
+                            class="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md z-0">
+                            <div
+                                class="w-full h-full rounded-full animate-[spin_4s_linear_infinite] bg-[conic-gradient(transparent_0deg,white_90deg,transparent_180deg)]">
+                            </div>
+                        </div>
+
+                        <div
+                            class="relative z-10 w-full h-full rounded-full border border-white/10 bg-gradient-to-b from-white/5 to-transparent overflow-hidden">
                             <img alt="Professional portrait"
                                 class="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700"
                                 src="profile.jpg" />
@@ -479,6 +566,36 @@
 
                         <div
                             class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[100px] -z-10 rounded-full">
+                        </div>
+
+                        <!-- Animated Pop Looping Labels (Hover Only) -->
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <!-- Label 1: Computer Engineer (Top Right) -->
+                            <div
+                                class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
+                                    Engineer</span>
+                            </div>
+
+                            <!-- Label 2: UI/UX Designer (Bottom Left) -->
+                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
+                                style="animation-delay: 3s;">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
+                                    Designer</span>
+                            </div>
+
+                            <!-- Label 3: Network Administrator (Top Left) -->
+                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
+                                style="animation-delay: 6s;">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
+                                    Administrator</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -524,7 +641,8 @@
                     <h1
                         class="text-5xl md:text-9xl font-black uppercase tracking-tighter mb-4 glow-text cursor-default">
                         Experience</h1>
-                    <p class="text-white/40 text-sm uppercase tracking-[0.3em] font-medium">Selected roles & career
+                    <p class="text-white/40 text-sm uppercase tracking-[0.3em] font-medium typing-text">Selected roles &
+                        career
                         highlights</p>
                 </div>
                 <div class="flex flex-col">
@@ -543,12 +661,16 @@
                             <ul class="space-y-4">
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Specialized in computer hardware
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Specialized in computer hardware
                                         assembly, diagnostics, and system optimization.</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Provided troubleshooting and
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Provided troubleshooting and
                                         technical
                                         support services.</p>
                                 </li>
@@ -570,24 +692,34 @@
                             <ul class="space-y-4">
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Troubleshooting PCs, deploying
-                                        computers, and setting up printers.</p>
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Provided technical support by
+                                        troubleshooting hardware and software issues across desktops and laptops.</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Setting up conference rooms for
-                                        meetings and assisting workers via AnyDesk, text, or physically.</p>
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Deployed and configured workstations,
+                                        including operating system installation, office software setup, and printer
+                                        configuration.</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Installing operating systems and
-                                        required office software (DingTalk, Microsoft Office, etc.).</p>
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Supported meeting operations by
+                                        setting up conference rooms and assisting employees through on-site and remote
+                                        support (AnyDesk, messaging tools).</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
-                                    <p class="text-lg text-white/80 leading-snug">Upgraded or replaced hardware on
-                                        older
-                                        computers.</p>
+                                    <p
+                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        Performed hardware upgrades and
+                                        component replacements on aging systems to improve performance and extend device
+                                        lifespan.</p>
                                 </li>
                             </ul>
                         </div>
@@ -603,7 +735,8 @@
                     <h1
                         class="text-5xl md:text-8xl lg:text-[10rem] font-black uppercase tracking-tighter mb-4 leading-none glow-text cursor-default">
                         PROJECTS</h1>
-                    <p class="text-white/40 text-lg max-w-2xl uppercase tracking-widest font-medium">A showcase of my
+                    <p class="text-white/40 text-lg max-w-2xl uppercase tracking-widest font-medium typing-text">A
+                        showcase of my
                         projects.</p>
                 </div>
                 <div class="space-y-32">
@@ -620,11 +753,15 @@
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
-                            <p class="text-white/70 text-sm leading-relaxed">
-                                An educational Python game designed to make learning calculus engaging and interactive.
-                                Players embark on mathematical adventures, solving derivative and integral challenges
-                                to progress through levels. Combines game mechanics with fundamental calculus concepts
-                                to transform complex mathematical theory into an enjoyable learning experience.
+                            <p class="text-white/50 text-sm leading-relaxed">
+                                <span class="hover:text-white transition-colors duration-300">An educational Python game
+                                    designed to make learning calculus engaging and interactive.</span>
+                                <span class="hover:text-white transition-colors duration-300">Players embark on
+                                    mathematical adventures, solving derivative and integral challenges to progress
+                                    through levels.</span>
+                                <span class="hover:text-white transition-colors duration-300">Combines game mechanics
+                                    with fundamental calculus concepts to transform complex mathematical theory into an
+                                    enjoyable learning experience.</span>
                             </p>
                         </div>
 
@@ -640,12 +777,15 @@
                                 <img src="trashcan_diagram.png" alt="Technical Diagram">
                                 <img src="trashcan_render.png" alt="Product Render">
                             </div>
-                            <p class="text-white/70 text-sm leading-relaxed">
-                                A revolutionary touch-free waste management system designed for maximum hygiene and
-                                convenience. Featuring advanced motion sensors and a sleek, minimalist aesthetic, this
-                                automatic opening trashcan eliminates physical contact, significantly reducing the
-                                spread of germs. Precision-engineered for silent operation, it transforms a mundane
-                                household item into a state-of-the-art sanitary solution.
+                            <p class="text-white/50 text-sm leading-relaxed">
+                                <span class="hover:text-white transition-colors duration-300">A revolutionary touch-free
+                                    waste management system designed for maximum hygiene and convenience.</span>
+                                <span class="hover:text-white transition-colors duration-300">Featuring advanced motion
+                                    sensors and a sleek, minimalist aesthetic, this automatic opening trashcan
+                                    eliminates physical contact, significantly reducing the spread of germs.</span>
+                                <span class="hover:text-white transition-colors duration-300">Precision-engineered for
+                                    silent operation, it transforms a mundane household item into a state-of-the-art
+                                    sanitary solution.</span>
                             </p>
                         </div>
                     </div>
@@ -654,10 +794,10 @@
                     <!-- Certificates Category -->
                     <section class="pt-6">
                         <h2
-                            class="text-4xl md:text-8xl font-black uppercase tracking-tighter clean-outline-text cursor-default mb-2">
+                            class="text-4xl md:text-8xl font-black uppercase tracking-tighter glow-text cursor-default mb-2">
                             Certificates
                         </h2>
-                        <span class="text-sm font-bold uppercase tracking-[0.3em] text-white/30 block mb-6">
+                        <span class="text-sm font-bold uppercase tracking-[0.3em] text-white/30 block mb-6 typing-text">
                             Training & Courses
                         </span>
 
@@ -766,7 +906,8 @@
                     <h1
                         class="text-5xl md:text-8xl font-black uppercase tracking-tighter mb-4 glow-text cursor-default">
                         Skills</h1>
-                    <p class="text-white/40 text-lg max-w-2xl uppercase tracking-widest font-medium">Technical
+                    <p class="text-white/40 text-lg max-w-2xl uppercase tracking-widest font-medium typing-text">
+                        Technical
                         Proficiency Overview.</p>
                 </div>
                 <div
@@ -917,26 +1058,32 @@
                             Getting to know me
                         </h2>
                         <div class="max-w-2xl">
-                            <p class="narrative-p">
-                                I am a passionate and dedicated Computer Engineering student at the Polytechnic
-                                University of the Philippines, Parañaque Campus, with a strong foundation in both
-                                hardware and software technologies. My academic training has equipped me with core
-                                competencies in electronics, computer architecture, and programming, while my
-                                hands-on
-                                experience as a freelance computer technician has sharpened my troubleshooting and
-                                system optimization skills. I’m proficient in computer hardware assembly and
-                                diagnostics, network administration including router configuration and LAN setup and
-                                embedded systems using microcontrollers like Arduino.
+                            <p class="narrative-p text-white/50">
+                                <span class="hover:text-white transition-colors duration-300">I am a passionate and
+                                    dedicated Computer Engineering student at the Polytechnic University of the
+                                    Philippines, Parañaque Campus, with a strong foundation in both hardware and
+                                    software technologies.</span>
+                                <span class="hover:text-white transition-colors duration-300">My academic training has
+                                    equipped me with core competencies in electronics, computer architecture, and
+                                    programming, while my hands-on experience as a freelance computer technician has
+                                    sharpened my troubleshooting and system optimization skills.</span>
+                                <span class="hover:text-white transition-colors duration-300">I’m proficient in computer
+                                    hardware assembly and diagnostics, network administration including router
+                                    configuration and LAN setup and embedded systems using microcontrollers like
+                                    Arduino.</span>
                             </p>
-                            <p class="narrative-p">
-                                Complementing my hardware expertise, I also have solid skills in frontend and web
-                                development, working with HTML, CSS, JavaScript, and modern frameworks to build
-                                responsive, user-friendly interfaces. My interest in UI/UX design allows me to
-                                approach
-                                projects with a user-centered mindset, ensuring that functionality meets intuitive
-                                design. This blend of technical versatility and practical experience enables me to
-                                bridge the gap between physical computing systems and digital applications making me
-                                well-prepared to contribute effectively in dynamic, tech-driven environments.
+                            <p class="narrative-p text-white/50">
+                                <span class="hover:text-white transition-colors duration-300">Complementing my hardware
+                                    expertise, I also have solid skills in frontend and web development, working with
+                                    HTML, CSS, JavaScript, and modern frameworks to build responsive, user-friendly
+                                    interfaces.</span>
+                                <span class="hover:text-white transition-colors duration-300">My interest in UI/UX
+                                    design allows me to approach projects with a user-centered mindset, ensuring that
+                                    functionality meets intuitive design.</span>
+                                <span class="hover:text-white transition-colors duration-300">This blend of technical
+                                    versatility and practical experience enables me to bridge the gap between physical
+                                    computing systems and digital applications making me well-prepared to contribute
+                                    effectively in dynamic, tech-driven environments.</span>
                             </p>
                         </div>
 
@@ -968,8 +1115,13 @@
                     <img src="github_icon.png" alt="GitHub"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
+                <a class="hover:opacity-100 transition-opacity group"
+                    href="https://www.facebook.com/joshua.lara.870831/" target="_blank">
+                    <img src="facebook_icon.png" alt="Facebook"
+                        class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                </a>
             </div>
-            <div class="text-xs font-bold uppercase tracking-widest text-white/40 text-center md:text-right">
+            <div class="text-xs font-bold uppercase tracking-widest text-white/70 text-center md:text-right">
                 © 2026 Joshua Adriane A. Lara — Portfolio
             </div>
         </div>
@@ -993,6 +1145,11 @@
                     <img src="github_icon.png" alt="GitHub"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
+                <a href="https://www.facebook.com/joshua.lara.870831/" target="_blank"
+                    class="hover:opacity-100 transition-opacity group">
+                    <img src="facebook_icon.png" alt="Facebook"
+                        class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                </a>
 
                 <!-- Space Invaders Trigger -->
                 <button onclick="window.openSpaceInvaders()"
@@ -1006,6 +1163,13 @@
                             class="inline-block group-hover:animate-bounce group-hover:text-white font-black ml-0.5">?</span>
                     </span>
                 </button>
+
+                <!-- Mobile Say Hello Button -->
+                <button
+                    class="md:hidden group contact-trigger flex items-center gap-2 border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold text-white hover:bg-white hover:text-black transition-all ml-4">
+                    Say Hello <span
+                        class="material-symbols-outlined text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
+                </button>
             </div>
 
             <a id="scroll-hint" href="#experience"
@@ -1015,7 +1179,7 @@
                     class="material-symbols-outlined text-sm group-hover:translate-y-1 transition-transform">expand_more</span>
             </a>
 
-            <div class="text-xs font-bold uppercase tracking-widest text-white/40 hidden md:block">
+            <div class="text-xs font-bold uppercase tracking-widest text-white/70 hidden md:block">
                 © 2026 Joshua Adriane A. Lara — Portfolio
             </div>
         </div>

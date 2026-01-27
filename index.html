@@ -143,6 +143,68 @@
             transform: scale(1.02);
             letter-spacing: 0.05em;
         }
+
+        /* Say Hello Rotating Trail Light */
+        .say-hello-trail {
+            position: relative;
+            overflow: hidden;
+            background: transparent !important;
+            border: none !important;
+        }
+
+        .say-hello-trail::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 250%; /* Larger to cover all angles during rotation */
+            height: 250%;
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 250deg,
+                #fff 360deg
+            );
+            animation: rotate-border 2s linear infinite;
+            z-index: 0;
+            opacity: 0.9;
+            filter: blur(1.5px) drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+            transition: opacity 0.3s ease;
+        }
+
+        .say-hello-trail:hover::before {
+            opacity: 0;
+        }
+
+        .say-hello-trail::after {
+            content: '';
+            position: absolute;
+            inset: 1px; /* Border thickness */
+            background: #000;
+            border-radius: inherit;
+            z-index: 1;
+            transition: background 0.3s ease;
+        }
+
+        .say-hello-trail:hover::after {
+            background: #fff;
+        }
+
+        .say-hello-trail span {
+            position: relative;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .say-hello-trail:hover span {
+            color: #000 !important;
+        }
+
+        @keyframes rotate-border {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
         .clean-outline-text {
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -482,9 +544,11 @@
             </div>
             <div class="flex items-center gap-6">
                 <button
-                    class="group contact-trigger hidden md:flex items-center gap-2 border border-white/20 px-6 py-2.5 rounded-full text-sm font-bold hover:bg-white hover:text-black transition-all">
-                    Say Hello <span
-                        class="material-symbols-outlined text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
+                    class="group contact-trigger hidden md:flex items-center justify-center say-hello-trail rounded-full text-sm font-bold transition-all p-0">
+                    <span class="px-6 py-2.5 flex items-center gap-2">
+                        Say Hello <span
+                            class="material-symbols-outlined text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
+                    </span>
                 </button>
                 <button
                     class="bg-white text-black w-12 h-12 rounded-full flex flex-col items-center justify-center gap-1.5 menu-trigger relative group magnetic-btn transition-transform duration-300 ease-out">
@@ -570,11 +634,12 @@
                             class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[100px] -z-10 rounded-full">
                         </div>
 
-                        <!-- Animated Pop Looping Labels (Hover Only) -->
-                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
+                        <div
+                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute inset-0 z-30 pointer-events-none">
                             <!-- Label 1: Computer Engineer (Top Right) -->
                             <div
-                                class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3">
+                                class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
                                 <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
@@ -582,7 +647,7 @@
                             </div>
 
                             <!-- Label 2: UI/UX Designer (Bottom Left) -->
-                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
+                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
                                 style="animation-delay: 3s;">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
@@ -591,7 +656,7 @@
                             </div>
 
                             <!-- Label 3: Network Administrator (Top Left) -->
-                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 group-hover:animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
+                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
                                 style="animation-delay: 6s;">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
@@ -1189,9 +1254,12 @@
 
                 <!-- Mobile Say Hello Button -->
                 <button
-                    class="md:hidden group contact-trigger flex items-center gap-2 border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold text-white hover:bg-white hover:text-black transition-all ml-4">
-                    Say Hello <span
-                        class="material-symbols-outlined text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
+                    class="md:hidden group contact-trigger flex items-center justify-center say-hello-trail rounded-full text-xs font-bold transition-all ml-4 p-0">
+                    <span
+                        class="px-4 py-1.5 flex items-center gap-2 text-white group-hover:text-black transition-colors">
+                        Say Hello <span
+                            class="material-symbols-outlined text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">north_east</span>
+                    </span>
                 </button>
             </div>
 

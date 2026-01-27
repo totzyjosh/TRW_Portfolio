@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>JOSHUA ADRIANE A. LARA | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="welcome.css">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap"
@@ -51,16 +53,15 @@
                 @apply bg-background-dark text-white overflow-x-hidden;
                 scroll-behavior: smooth;
             }
+            body.no-scroll {
+                @apply overflow-hidden;
+            }
             section {
                 @apply min-h-screen py-24 border-b border-white/5 relative;
             }
         }
-        .stat-badge {
-            @apply absolute bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-xl flex flex-col z-20;
-        }
-        .pill-tag {
-            @apply border border-white/20 rounded-full px-4 py-1.5 text-xs font-medium text-white/70 hover:bg-white hover:text-black transition-all cursor-default;
-        }
+        
+
         
         /* Experience Card */
         .experience-card {
@@ -622,10 +623,11 @@
         });
     </script>
 
-
 </head>
 
 <body class="min-h-screen flex flex-col font-sans">
+    <!-- Welcome Screen / Splash Overlay -->
+
     <!-- Animated Black Hole Video Background -->
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <video autoplay loop muted playsinline class="w-full h-full object-cover grayscale opacity-40 mix-blend-screen">
@@ -673,6 +675,20 @@
     <canvas id="particles-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
     <script src="particles.js" defer></script>
     <script src="particles.js" defer></script>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-overlay">
+        <div class="video-wrapper">
+            <video id="welcome-loop-video" autoplay muted loop playsinline>
+                <source src="loop.mp4" type="video/mp4">
+            </video>
+            <video id="welcome-explosion-video" playsinline>
+                <source src="explosion.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="white-flash"></div>
+        <button id="enter-button"></button> <!-- Text populated by JS -->
+    </div>
 
     <header class="w-full fixed top-0 z-50 px-6 py-6 mix-blend-difference">
         <div class="max-w-[1400px] mx-auto flex items-center justify-between">
@@ -1389,7 +1405,8 @@
                                         Interstellar Theme</h4>
                                     <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">Hans Zimmer
                                     </p>
-                                    <div class="flex items-center gap-1 mt-2">
+                                    <div class="flex items-end gap-1 mt-2 h-6">
+                                        <!-- Fixed height h-6 to prevent jumping -->
                                         <div class="music-bar w-[3px] h-3 bg-white/40"></div>
                                         <div class="music-bar w-[3px] h-5 bg-white/60" style="animation-delay: 0.1s">
                                         </div>
@@ -1476,11 +1493,20 @@
                                         class="w-full h-full object-cover">
                                 </div>
                                 <div class="overflow-hidden flex-1">
-                                    <h4 class="text-white font-bold text-sm truncate uppercase tracking-tighter">
-                                        Interstellar Theme</h4>
+                                    <div class="music-scroll-container flex gap-4">
+                                        <h4
+                                            class="music-scroll-text text-white font-bold text-sm uppercase tracking-tighter flex-shrink-0">
+                                            Interstellar Theme Extended
+                                        </h4>
+                                        <h4 class="music-scroll-text text-white font-bold text-sm uppercase tracking-tighter flex-shrink-0"
+                                            aria-hidden="true">
+                                            Interstellar Theme Extended
+                                        </h4>
+                                    </div>
                                     <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">Hans Zimmer
                                     </p>
-                                    <div class="flex items-center gap-1 mt-2">
+                                    <div class="flex items-end gap-1 mt-2 h-6">
+                                        <!-- Fixed height h-6 to prevent jumping -->
                                         <div class="music-bar w-[3px] h-3 bg-white/40"></div>
                                         <div class="music-bar w-[3px] h-5 bg-white/60" style="animation-delay: 0.1s">
                                         </div>
@@ -1883,4 +1909,5 @@
             setTimeout(startPromptCycle, 5000);
         });
     </script>
+    <script src="welcome.js"></script>
 </body>

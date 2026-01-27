@@ -261,10 +261,12 @@
                                     // Store timeout ID to clear if needed
                                     element.typingTimeout = setTimeout(type, 50 + Math.random() * 30);
                                 } else {
-                                    // Remove cursor after typing finishes
-                                    setTimeout(() => {
+                                    // Wait 2 seconds then restart
+                                    element.typingTimeout = setTimeout(() => {
                                         if (element.hasAttribute('data-typing-active')) {
-                                            element.classList.remove('typing-cursor');
+                                            element.textContent = '';
+                                            i = 0;
+                                            type();
                                         }
                                     }, 2000);
                                 }
@@ -275,7 +277,7 @@
                         // Reset animation when scrolled away
                         element.removeAttribute('data-typing-active');
                         element.textContent = ''; // Clear text
-                        element.classList.remove('typing-cursor');
+                        element.classList.remove('typing-cursor'); // Ensure cursor is removed
                         if (element.typingTimeout) {
                             clearTimeout(element.typingTimeout);
                         }
@@ -1035,10 +1037,23 @@
                                 <div class="mt-8 pt-8 border-t border-white/5">
                                     <h5 class="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">
                                         Coursework</h5>
-                                    <p class="text-white/70 leading-relaxed text-sm md:text-base font-light">
-                                        Computer Systems, Programming, Network Engineering, Hardware Maintenance,
-                                        Data
-                                        Structures, Operating Systems, Software Engineering, Digital Logic Design.
+                                    <p class="text-white/50 leading-relaxed text-sm md:text-base font-light">
+                                        <span class="hover:text-white transition-colors duration-300">Computer
+                                            Systems</span>,
+                                        <span
+                                            class="hover:text-white transition-colors duration-300">Programming</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Network
+                                            Engineering</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Hardware
+                                            Maintenance</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Data
+                                            Structures</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Operating
+                                            Systems</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Software
+                                            Engineering</span>,
+                                        <span class="hover:text-white transition-colors duration-300">Digital Logic
+                                            Design</span>.
                                     </p>
                                 </div>
                             </div>

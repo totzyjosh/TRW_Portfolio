@@ -116,6 +116,41 @@ document.addEventListener('DOMContentLoaded', () => {
         box-shadow: 0 0 20px rgba(255,255,255,0.5);
         transform: scale(1.05);
     }
+    .level-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 900;
+        font-size: 72px;
+        color: white;
+        pointer-events: none;
+        opacity: 0;
+        z-index: 105;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        text-shadow: 0 0 30px rgba(255,255,255,0.3);
+    }
+    .level-indicator.active {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    .game-stats {
+        display: flex;
+        gap: 30px;
+    }
+    .stat-label {
+        font-size: 10px;
+        color: rgba(255,255,255,0.4);
+        margin-bottom: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    .stat-value {
+        font-size: 20px;
+        font-weight: 800;
+        color: white;
+    }
     `;
 
     const styleSheet = document.createElement("style");
@@ -130,13 +165,28 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="material-symbols-outlined text-sm">close</span>
         </button>
         <div class="game-ui">
-            <div class="game-score">SCORE: <span id="si-score">0</span></div>
+            <div class="game-stats">
+                <div>
+                    <div class="stat-label">Score</div>
+                    <div class="stat-value" id="si-score">0</div>
+                </div>
+                <div>
+                    <div class="stat-label">High Score</div>
+                    <div class="stat-value" id="si-high-score">0</div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <div class="stat-label">Level</div>
+                <div class="stat-value" id="si-level">1</div>
+            </div>
             <div class="game-controls-hint">MOUSE to Move • CLICK to Shoot</div>
         </div>
+        <div class="level-indicator" id="si-level-indicator">LEVEL 1</div>
         <canvas id="space-invaders-canvas" width="800" height="600"></canvas>
         <div class="game-over-screen" id="si-game-over">
             <h1 style="font-family: 'Plus Jakarta Sans'; font-weight: 900; color: white; font-size: 48px; margin: 0;">GAME OVER</h1>
             <p style="color: #888; font-family: 'Plus Jakarta Sans'; font-size: 16px;">Final Score: <span id="si-final-score" style="color: white; font-weight: bold;">0</span></p>
+            <p style="color: #555; font-family: 'Plus Jakarta Sans'; font-size: 12px; margin-top: -10px;">High Score: <span id="si-final-high-score">0</span></p>
             <button class="restart-btn" id="si-restart-btn">Try Again</button>
         </div>
     `;
@@ -146,13 +196,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('space-invaders-canvas');
     const ctx = canvas.getContext('2d');
     const scoreEl = document.getElementById('si-score');
+    const highScoreEl = document.getElementById('si-high-score');
+    const levelEl = document.getElementById('si-level');
+    const levelIndicatorEl = document.getElementById('si-level-indicator');
     const finalScoreEl = document.getElementById('si-final-score');
+    const finalHighScoreEl = document.getElementById('si-final-high-score');
     const gameOverScreen = document.getElementById('si-game-over');
     const restartBtn = document.getElementById('si-restart-btn');
     const closeBtn = gameOverlay.querySelector('.game-close-btn');
 
     let gameActive = false;
     let score = 0;
+    let level = 1;
+    let highScore = localStorage.getItem('si-high-score') || 0;
+    highScoreEl.innerText = highScore;
+
     let animationId;
     let particles = [];
 
@@ -164,6 +222,19 @@ document.addEventListener('DOMContentLoaded', () => {
         height: 40,
         bullets: []
     };
+
+    // Audio Assets
+    const laserSound = new Audio('Laser Gun Sound Effect.mp3');
+    const boomSound = new Audio('Boom Sound Effect.mp3');
+    laserSound.preload = 'auto';
+    boomSound.preload = 'auto';
+
+    function playSound(audio, volume = 0.4, startTime = 0) {
+        const clone = audio.cloneNode();
+        clone.volume = volume;
+        clone.currentTime = startTime;
+        clone.play().catch(e => console.log("Sound play blocked:", e));
+    }
 
     // Aliens
     let aliens = [];
@@ -279,6 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         score += 10;
                         scoreEl.innerText = score;
                         createParticle(alien.x + alienWidth / 2, alien.y + alienHeight / 2, '#fff');
+                        playSound(boomSound, 0.15, 0.1); // Lower volume and skip 0.1s silence for boom
 
                         // Remove bullet
                         player.bullets.splice(index, 1);
@@ -329,30 +401,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Win Condition
         if (aliens.filter(a => a.status === 1).length === 0) {
-            createAliens();
+            level++;
+            levelEl.innerText = level;
             alienSpeed += 0.5;
+            showLevelIndicator(`LEVEL ${level}`);
+            createAliens();
         }
 
         animationId = requestAnimationFrame(update);
     }
 
+    function showLevelIndicator(text) {
+        levelIndicatorEl.innerText = text;
+        levelIndicatorEl.classList.add('active');
+        setTimeout(() => {
+            levelIndicatorEl.classList.remove('active');
+        }, 2000);
+    }
+
     function gameOver() {
         gameActive = false;
         cancelAnimationFrame(animationId);
+
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('si-high-score', highScore);
+            highScoreEl.innerText = highScore;
+        }
+
         gameOverScreen.classList.add('active');
         finalScoreEl.innerText = score;
+        finalHighScoreEl.innerText = highScore;
         canvas.style.cursor = 'default';
     }
 
     function initGame() {
         score = 0;
+        level = 1;
         scoreEl.innerText = '0';
+        levelEl.innerText = '1';
+        highScoreEl.innerText = highScore;
         gameActive = true;
         gameOverScreen.classList.remove('active');
         createAliens();
         player.bullets = [];
         alienSpeed = 1;
         canvas.style.cursor = 'none'; // Hide cursor inside game
+        showLevelIndicator('LEVEL 1');
         update();
     }
 
@@ -369,6 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.addEventListener('mousedown', (e) => {
         if (gameActive) {
             player.bullets.push({ x: player.x, y: player.y });
+            playSound(laserSound);
         }
     });
 

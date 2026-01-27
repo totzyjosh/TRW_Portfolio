@@ -32,11 +32,9 @@
                     },
                     keyframes: {
                         'popCycle': {
-                            '0%, 100%': { transform: 'scale(0)', opacity: '0' },
-                            '5%': { transform: 'scale(1.1)', opacity: '1' },
-                            '10%': { transform: 'scale(1)', opacity: '1' },
-                            '30%': { transform: 'scale(1)', opacity: '1' },
-                            '35%': { transform: 'scale(0)', opacity: '0' },
+                            '0%, 100%': { transform: 'scale(0.98) rotate(0.01deg)', opacity: '0' },
+                            '10%, 30%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+                            '35%, 95%': { transform: 'scale(0.98) rotate(0.01deg)', opacity: '0' },
                         },
                         'spin-reverse': {
                             'from': { transform: 'rotate(360deg)' },
@@ -239,6 +237,101 @@
         @keyframes blink {
             from, to { opacity: 1; }
             50% { opacity: 0; }
+        }
+
+        /* Music Player Tooltip */
+        .music-prompt-bubble {
+            @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-4 bg-black/80 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest uppercase opacity-0 translate-y-4 pointer-events-none transition-all duration-700 z-[70] shadow-2xl flex items-center gap-2 whitespace-nowrap;
+        }
+        .music-prompt-bubble.visible {
+            @apply opacity-100 translate-y-0 pointer-events-auto;
+        }
+        .music-prompt-bubble::after {
+            content: '';
+            @apply absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-black/80;
+        }
+        
+        /* Spotify-style Music Menu */
+        .music-menu {
+            @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-64 rounded-2xl opacity-0 scale-95 pointer-events-none z-[100] shadow-2xl;
+        }
+        
+        /* Rotating Light Trail Container */
+        .music-menu-trail {
+            @apply absolute inset-0 overflow-hidden rounded-2xl pointer-events-none;
+            z-index: 0;
+        }
+        
+        /* Rotating Light Trail */
+        .music-menu-trail::before {
+            content: '';
+            @apply absolute top-1/2 left-1/2 w-[200%] h-[200%];
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 280deg,
+                rgba(255, 255, 255, 1) 360deg
+            );
+            animation: rotate-trail 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(10px);
+        }
+
+        .group:hover .music-menu {
+            @apply opacity-100 scale-100 pointer-events-auto;
+        }
+
+        .group:hover .music-menu-trail::before {
+            opacity: 1;
+        }
+        
+        /* Hover Bridge to prevent menu from closing when moving cursor */
+        .music-menu::after {
+            content: '';
+            @apply absolute top-full left-1/2 -translate-x-1/2 w-10 h-14 bg-transparent;
+            z-index: 1;
+        }
+
+        .music-menu-content {
+            @apply relative z-10 m-[1px] bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-4 flex flex-col gap-4;
+        }
+
+        @keyframes rotate-trail {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .music-bar {
+            @apply rounded-full;
+            animation: music-flow 1s ease-in-out infinite;
+        }
+        @keyframes music-flow {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+
+        /* Glowing White Knobs for Sliders */
+        .music-seek-bar, .music-volume-bar {
+            -webkit-appearance: none;
+            @apply w-full h-1 bg-white/10 rounded-lg outline-none;
+        }
+        
+        .music-seek-bar::-webkit-slider-thumb, 
+        .music-volume-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            @apply w-2 h-2 bg-white cursor-pointer rounded-full;
+            box-shadow: 0 0 8px #fff, 0 0 16px rgba(255,255,255,0.8);
+            border: none;
+            margin-top: 0; /* Align with track */
+        }
+
+        .music-seek-bar::-moz-range-thumb, 
+        .music-volume-bar::-moz-range-thumb {
+            @apply w-2 h-2 bg-white cursor-pointer rounded-full;
+            box-shadow: 0 0 8px #fff, 0 0 16px rgba(255,255,255,0.8);
+            border: none;
         }
     </style>
     <script>
@@ -613,7 +706,8 @@
                         <span class="pill-tag">Web Development</span>
                     </div>
                 </div>
-                <div class="w-full md:w-1/2 flex justify-center items-center relative">
+                <div class="w-full md:w-1/2 flex justify-center items-center relative"
+                    style="isolation: isolate; backdrop-filter: blur(0px);">
                     <div class="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px] group">
                         <!-- Rotating Light Glow -->
                         <div
@@ -636,10 +730,10 @@
 
                         <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
                         <div
-                            class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute inset-0 z-30 pointer-events-none">
+                            class="opacity-[0.01] group-hover:opacity-100 absolute inset-0 z-30 pointer-events-none transform-gpu will-change-[opacity,backdrop-filter]">
                             <!-- Label 1: Computer Engineer (Top Right) -->
-                            <div
-                                class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3">
+                            <div class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="backface-visibility: hidden; transform: translateZ(0);">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
                                 <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
@@ -647,8 +741,8 @@
                             </div>
 
                             <!-- Label 2: UI/UX Designer (Bottom Left) -->
-                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
-                                style="animation-delay: 3s;">
+                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="animation-delay: 3s; backface-visibility: hidden; transform: translateZ(0);">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
                                 <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
@@ -656,8 +750,8 @@
                             </div>
 
                             <!-- Label 3: Network Administrator (Top Left) -->
-                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3"
-                                style="animation-delay: 6s;">
+                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="animation-delay: 6s; backface-visibility: hidden; transform: translateZ(0);">
                                 <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                                 </div>
                                 <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
@@ -718,13 +812,14 @@
                             <span class="text-sm font-bold text-white/40 tracking-widest uppercase">Aug 2023 —
                                 Present</span>
                         </div>
-                        <div class="w-full md:w-1/4">
+                        <div
+                            class="w-full md:w-1/4 group/role hover:translate-x-2 transition-transform duration-300 cursor-default">
                             <h3
-                                class="text-2xl font-bold uppercase tracking-tight mb-1 hover:translate-x-2 transition-transform duration-300">
+                                class="text-2xl font-bold uppercase tracking-tight mb-1 group-hover/role:text-white transition-colors">
                                 Freelancer, Computer
                                 Technician
                             </h3>
-                            <p class="text-white/60 font-medium hover:translate-x-2 transition-transform duration-300">
+                            <p class="text-white/60 font-medium group-hover/role:text-white transition-colors">
                                 Parañaque City</p>
                         </div>
                         <div class="w-full md:w-2/4">
@@ -732,14 +827,14 @@
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Specialized in computer hardware
                                         assembly, diagnostics, and system optimization.</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Provided troubleshooting and
                                         technical
                                         support services.</p>
@@ -752,14 +847,15 @@
                             <span class="text-sm font-bold text-white/40 tracking-widest uppercase">Jul 2025 — Sep
                                 2025</span>
                         </div>
-                        <div class="w-full md:w-1/4">
+                        <div
+                            class="w-full md:w-1/4 group/role hover:translate-x-2 transition-transform duration-300 cursor-default">
                             <h3
-                                class="text-2xl font-bold uppercase tracking-tight mb-1 hover:translate-x-2 transition-transform duration-300">
+                                class="text-2xl font-bold uppercase tracking-tight mb-1 group-hover/role:text-white transition-colors">
                                 IT Specialist</h3>
-                            <p class="text-white/60 font-medium hover:translate-x-2 transition-transform duration-300">
+                            <p class="text-white/60 font-medium group-hover/role:text-white transition-colors">
                                 Realme Philippines · Internship</p>
                             <p
-                                class="text-xs text-white/40 mt-1 uppercase tracking-wider hover:translate-x-2 transition-transform duration-300">
+                                class="text-xs text-white/40 mt-1 uppercase tracking-wider group-hover/role:text-white transition-colors">
                                 Taguig, NCR, Philippines
                             </p>
                         </div>
@@ -768,14 +864,14 @@
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Provided technical support by
                                         troubleshooting hardware and software issues across desktops and laptops.</p>
                                 </li>
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Deployed and configured workstations,
                                         including operating system installation, office software setup, and printer
                                         configuration.</p>
@@ -783,7 +879,7 @@
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Supported meeting operations by
                                         setting up conference rooms and assisting employees through on-site and remote
                                         support (AnyDesk, messaging tools).</p>
@@ -791,7 +887,7 @@
                                 <li class="flex gap-4">
                                     <span class="achievement-dot"></span>
                                     <p
-                                        class="text-lg text-white/50 leading-snug hover:text-white transition-colors duration-300">
+                                        class="text-lg text-white/50 leading-snug hover:text-white hover:translate-x-2 transition-all duration-300">
                                         Performed hardware upgrades and
                                         component replacements on aging systems to improve performance and extend device
                                         lifespan.</p>
@@ -887,7 +983,8 @@
                                     class="text-white/50 text-base uppercase tracking-widest font-bold leading-none mb-0">
                                     Courses Completed:</p>
                                 <ul class="text-white/70 text-xl space-y-2 font-bold mt-2">
-                                    <li class="flex gap-3 items-center">
+                                    <li
+                                        class="flex gap-3 items-center hover:translate-x-2 transition-transform duration-300">
                                         <span class="text-white/40">•</span>
                                         <a href="sololearn python course certificate.pdf" target="_blank"
                                             class="hover:text-white transition-colors">Introduction to
@@ -904,13 +1001,15 @@
                                     class="text-white/50 text-base uppercase tracking-widest font-bold leading-none mb-0">
                                     Courses Completed:</p>
                                 <ul class="text-white/70 text-xl space-y-2 font-bold mt-2">
-                                    <li class="flex gap-3 items-center">
+                                    <li
+                                        class="flex gap-3 items-center hover:translate-x-2 transition-transform duration-300">
                                         <span class="text-white/40">•</span>
                                         <a href="certificateconfiguring.pdf" target="_blank"
                                             class="hover:text-white transition-colors">Installing and
                                             Configuring Computer Systems</a>
                                     </li>
-                                    <li class="flex gap-3 items-center">
+                                    <li
+                                        class="flex gap-3 items-center hover:translate-x-2 transition-transform duration-300">
                                         <span class="text-white/40">•</span>
                                         <a href="certificatecss.pdf" target="_blank"
                                             class="hover:text-white transition-colors">Introduction to
@@ -1104,7 +1203,9 @@
                                     class="text-3xl md:text-5xl font-bold mb-4 clean-outline-text group-hover:translate-x-2 transition-transform duration-500">
                                     Bachelor of Science in Computer Engineering
                                 </h4>
-                                <p class="text-xl text-white/60 font-medium mb-6">Polytechnic University of the
+                                <p
+                                    class="text-xl text-white/60 font-medium mb-6 hover:translate-x-2 transition-transform duration-300">
+                                    Polytechnic University of the
                                     Philippines, Parañaque Campus</p>
 
                                 <div class="mt-8 pt-8 border-t border-white/5">
@@ -1146,32 +1247,28 @@
                             Getting to know me
                         </h2>
                         <div class="max-w-2xl">
-                            <p class="narrative-p text-white/50">
-                                <span class="hover:text-white transition-colors duration-300">I am a passionate and
-                                    dedicated Computer Engineering student at the Polytechnic University of the
-                                    Philippines, Parañaque Campus, with a strong foundation in both hardware and
-                                    software technologies.</span>
-                                <span class="hover:text-white transition-colors duration-300">My academic training has
-                                    equipped me with core competencies in electronics, computer architecture, and
-                                    programming, while my hands-on experience as a freelance computer technician has
-                                    sharpened my troubleshooting and system optimization skills.</span>
-                                <span class="hover:text-white transition-colors duration-300">I’m proficient in computer
-                                    hardware assembly and diagnostics, network administration including router
-                                    configuration and LAN setup and embedded systems using microcontrollers like
-                                    Arduino.</span>
+                            <p
+                                class="narrative-p text-white/50 hover:text-white transition-all duration-300 hover:translate-x-2 cursor-default">
+                                I am a passionate and dedicated Computer Engineering student at the Polytechnic
+                                University of the Philippines, Parañaque Campus, with a strong foundation in both
+                                hardware and software technologies.
+                                My academic training has equipped me with core competencies in electronics, computer
+                                architecture, and programming, while my hands-on experience as a freelance computer
+                                technician has sharpened my troubleshooting and system optimization skills.
+                                I’m proficient in computer hardware assembly and diagnostics, network administration
+                                including router configuration and LAN setup and embedded systems using microcontrollers
+                                like Arduino.
                             </p>
-                            <p class="narrative-p text-white/50">
-                                <span class="hover:text-white transition-colors duration-300">Complementing my hardware
-                                    expertise, I also have solid skills in frontend and web development, working with
-                                    HTML, CSS, JavaScript, and modern frameworks to build responsive, user-friendly
-                                    interfaces.</span>
-                                <span class="hover:text-white transition-colors duration-300">My interest in UI/UX
-                                    design allows me to approach projects with a user-centered mindset, ensuring that
-                                    functionality meets intuitive design.</span>
-                                <span class="hover:text-white transition-colors duration-300">This blend of technical
-                                    versatility and practical experience enables me to bridge the gap between physical
-                                    computing systems and digital applications making me well-prepared to contribute
-                                    effectively in dynamic, tech-driven environments.</span>
+                            <p
+                                class="narrative-p text-white/50 hover:text-white transition-all duration-300 hover:translate-x-2 cursor-default">
+                                Complementing my hardware expertise, I also have solid skills in frontend and web
+                                development, working with HTML, CSS, JavaScript, and modern frameworks to build
+                                responsive, user-friendly interfaces.
+                                My interest in UI/UX design allows me to approach projects with a user-centered mindset,
+                                ensuring that functionality meets intuitive design.
+                                This blend of technical versatility and practical experience enables me to bridge the
+                                gap between physical computing systems and digital applications making me well-prepared
+                                to contribute effectively in dynamic, tech-driven environments.
                             </p>
                         </div>
 
@@ -1190,30 +1287,92 @@
         </section>
     </main>
 
-    <footer class="w-full py-12 px-6 border-t border-white/5 bg-background-dark">
+    <footer class="w-full py-12 px-6 border-t border-white/5 bg-background-dark relative z-10">
         <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
-            <div class="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/40 items-center">
-                <a class="hover:opacity-100 transition-opacity group"
+            <div
+                class="flex gap-8 text-xs font-bold uppercase tracking-widest text-white/40 items-center relative z-20">
+                <a class="hover:opacity-100 transition-opacity group relative z-30"
                     href="https://www.linkedin.com/in/joshua-lara-472533314/" target="_blank">
                     <img src="linkedin_icon.png" alt="LinkedIn"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
-                <a class="hover:opacity-100 transition-opacity group" href="https://github.com/totzyjosh"
+                <a class="hover:opacity-100 transition-opacity group relative z-30" href="https://github.com/totzyjosh"
                     target="_blank">
                     <img src="github_icon.png" alt="GitHub"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
-                <a class="hover:opacity-100 transition-opacity group"
+                <a class="hover:opacity-100 transition-opacity group relative z-30"
                     href="https://www.facebook.com/joshua.lara.870831/" target="_blank">
                     <img src="facebook_icon.png" alt="Facebook"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
+
+                <!-- Music Button in Footer -->
+                <div class="relative group music-trigger-container">
+                    <!-- Too Quiet Prompt -->
+                    <div class="music-prompt-bubble">
+                        <span>Too quiet?</span>
+                    </div>
+                    <button
+                        class="music-trigger hover:opacity-100 transition-opacity group flex items-center justify-center relative z-[110]">
+                        <span
+                            class="material-symbols-outlined text-white text-xl transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">music_note</span>
+                    </button>
+                    <!-- Spotify-style Menu -->
+                    <div class="music-menu">
+                        <div class="music-menu-trail"></div>
+                        <div class="music-menu-content">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-16 h-16 rounded-lg bg-zinc-800 flex-shrink-0 overflow-hidden shadow-lg border border-white/10 shrink-0">
+                                    <img src="interstellar_cover.png" alt="Interstellar Cover"
+                                        class="w-full h-full object-cover">
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <h4 class="text-white font-bold text-sm truncate uppercase tracking-tighter">
+                                        Interstellar Theme</h4>
+                                    <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">Hans Zimmer
+                                    </p>
+                                    <div class="flex items-center gap-1 mt-2">
+                                        <div class="music-bar w-[3px] h-3 bg-white/40"></div>
+                                        <div class="music-bar w-[3px] h-5 bg-white/60" style="animation-delay: 0.1s">
+                                        </div>
+                                        <div class="music-bar w-[3px] h-4 bg-white/40" style="animation-delay: 0.2s">
+                                        </div>
+                                        <div class="music-bar w-[3px] h-6 bg-white/60" style="animation-delay: 0.3s">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Controls & Progress -->
+                            <div class="pt-2 border-t border-white/5 space-y-3">
+                                <!-- Seek Bar -->
+                                <div>
+                                    <input type="range"
+                                        class="music-seek-bar w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+                                        value="0" step="0.1">
+                                    <div
+                                        class="flex justify-between mt-2 text-[10px] font-bold text-white/40 uppercase tracking-widest">
+                                        <span class="current-time">0:00</span>
+                                        <span class="duration-time">0:00</span>
+                                    </div>
+                                </div>
+                                <!-- Volume Bar -->
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-white/40 text-sm">volume_up</span>
+                                    <input type="range"
+                                        class="music-volume-bar flex-1 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+                                        value="100" min="0" max="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="text-xs font-bold uppercase tracking-widest text-white/70 text-center md:text-right">
                 © 2026 Joshua Adriane A. Lara — Portfolio
             </div>
         </div>
-    </footer>
     </footer>
 
     <!-- Contact Modal -->
@@ -1238,6 +1397,68 @@
                     <img src="facebook_icon.png" alt="Facebook"
                         class="w-6 h-6 object-contain filter brightness-0 invert transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
                 </a>
+
+                <!-- Music Button in Smart Footer -->
+                <div class="relative group music-trigger-container">
+                    <!-- Too Quiet Prompt -->
+                    <div class="music-prompt-bubble">
+                        <span>Too quiet?</span>
+                    </div>
+                    <button
+                        class="music-trigger hover:opacity-100 transition-opacity group flex items-center justify-center relative z-[110]">
+                        <span
+                            class="material-symbols-outlined text-white text-xl transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">music_note</span>
+                    </button>
+                    <!-- Spotify-style Menu -->
+                    <div class="music-menu">
+                        <div class="music-menu-trail"></div>
+                        <div class="music-menu-content">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-16 h-16 rounded-lg bg-zinc-800 flex-shrink-0 overflow-hidden shadow-lg border border-white/10 shrink-0">
+                                    <img src="interstellar_cover.png" alt="Interstellar Cover"
+                                        class="w-full h-full object-cover">
+                                </div>
+                                <div class="overflow-hidden flex-1">
+                                    <h4 class="text-white font-bold text-sm truncate uppercase tracking-tighter">
+                                        Interstellar Theme</h4>
+                                    <p class="text-white/50 text-[10px] font-bold uppercase tracking-widest">Hans Zimmer
+                                    </p>
+                                    <div class="flex items-center gap-1 mt-2">
+                                        <div class="music-bar w-[3px] h-3 bg-white/40"></div>
+                                        <div class="music-bar w-[3px] h-5 bg-white/60" style="animation-delay: 0.1s">
+                                        </div>
+                                        <div class="music-bar w-[3px] h-4 bg-white/40" style="animation-delay: 0.2s">
+                                        </div>
+                                        <div class="music-bar w-[3px] h-6 bg-white/60" style="animation-delay: 0.3s">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Controls & Progress -->
+                            <div class="pt-2 border-t border-white/5 space-y-3">
+                                <!-- Seek Bar -->
+                                <div>
+                                    <input type="range"
+                                        class="music-seek-bar w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+                                        value="0" step="0.1">
+                                    <div class="flex justify-between mt-2 text-[10px] font-bold text-white/40 uppercase tracking-widest"
+                                        style="color: rgba(255,255,255,0.4)">
+                                        <span class="current-time">0:00</span>
+                                        <span class="duration-time">0:00</span>
+                                    </div>
+                                </div>
+                                <!-- Volume Bar -->
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-white/40 text-sm">volume_up</span>
+                                    <input type="range"
+                                        class="music-volume-bar flex-1 h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+                                        value="100" min="0" max="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Space Invaders Trigger -->
                 <button onclick="window.openSpaceInvaders()"
@@ -1286,11 +1507,11 @@
             class="relative pointer-events-auto cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-95"
             onclick="scrollToTop()">
             <img src="rocket.png" id="rocket-img" alt="Scroll to Top"
-                class="w-12 h-12 md:w-20 md:h-20 object-contain grayscale-rocket drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 z-10 relative">
+                class="w-12 h-12 md:w-20 md:h-20 object-contain grayscale-rocket transition-all duration-300 z-10 relative">
 
             <!-- Flame Container -->
             <div id="rocket-flame"
-                class="absolute left-1/2 bottom-0 -translate-x-1/2 w-4 h-0 bg-gradient-to-t from-red-500 via-orange-400 to-yellow-300 rounded-b-full opacity-0 transition-all duration-200 z-0 blur-[2px]">
+                class="absolute left-1/2 top-full -translate-x-1/2 w-8 h-0 bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 rounded-b-full opacity-0 transition-all duration-200 z-0 blur-[3px]">
             </div>
 
             <span id="rocket-tooltip"
@@ -1340,40 +1561,21 @@
             }
         }
 
-        /* Flame Flicker Animation */
+        /* Flame Flicker Animation - More Prominent */
         @keyframes flame-flicker {
 
             0%,
             100% {
-                height: 40px;
-                opacity: 0.8;
-                transform: translateX(-50%) scaleX(1);
+                height: 60px;
+                opacity: 0.9;
+                transform: translateX(-50%) scaleX(1.1);
             }
 
             50% {
-                height: 50px;
+                height: 95px;
                 opacity: 1;
-                transform: translateX(-50%) scaleX(1.2);
+                transform: translateX(-50%) scaleX(1.5);
             }
-        }
-
-        /* Pulsate Animation */
-        @keyframes rocket-pulsate {
-
-            0%,
-            100% {
-                transform: scale(1);
-                filter: grayscale(100%) brightness(0.9) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
-            }
-
-            50% {
-                transform: scale(1.05);
-                filter: grayscale(100%) brightness(1.1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
-            }
-        }
-
-        .rocket-pulsating {
-            animation: rocket-pulsate 1.5s ease-in-out infinite !important;
         }
 
         .rocket-flying {
@@ -1388,8 +1590,8 @@
 
         .rocket-launching #rocket-flame {
             opacity: 1 !important;
-            height: 40px !important;
-            animation: flame-flicker 0.1s linear infinite;
+            height: 60px !important;
+            animation: flame-flicker 0.08s linear infinite;
         }
     </style>
 
@@ -1409,7 +1611,7 @@
                 clearTimeout(waitTimer);
                 clearTimeout(windowTimer);
                 rocketContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
-                rocketWrapper.classList.remove('rocket-pulsating', 'rocket-launching', 'rocket-flying');
+                rocketWrapper.classList.remove('rocket-launching', 'rocket-flying');
                 rocketTooltip.classList.add('opacity-0');
             };
 
@@ -1428,7 +1630,6 @@
                 rocketState = 'visible';
                 rocketContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
                 rocketContainer.classList.add('pointer-events-auto');
-                rocketWrapper.classList.add('rocket-pulsating');
                 rocketTooltip.innerText = "Want a lift?";
                 rocketTooltip.classList.remove('opacity-0');
 
@@ -1468,7 +1669,6 @@
 
                 // Stage 2: Launching
                 rocketTooltip.classList.add('opacity-0');
-                rocketWrapper.classList.remove('rocket-pulsating');
                 rocketWrapper.classList.add('rocket-launching');
 
                 setTimeout(() => {
@@ -1495,6 +1695,118 @@
 
                 }, 800);
             };
+        });
+    </script>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="interstellar.mp3" type="audio/mpeg">
+    </audio>
+
+
+
+    <script>
+        window.onerror = function (msg, url, lineNo, columnNo, error) {
+            console.error('Window Error:', msg, 'at', url, ':', lineNo, ':', columnNo, error);
+            return false;
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('bg-music');
+            const prompts = document.querySelectorAll('.music-prompt-bubble');
+            const musicButtons = document.querySelectorAll('.music-trigger');
+            const seekBars = document.querySelectorAll('.music-seek-bar');
+            const volumeBars = document.querySelectorAll('.music-volume-bar');
+            const currTimeDisplays = document.querySelectorAll('.current-time');
+            const durationDisplays = document.querySelectorAll('.duration-time');
+            let isPlaying = false;
+            let promptInterval;
+
+            // Debug Audio
+            console.log("Audio initializing...");
+            audio.src = "interstellar.mp3";
+            audio.muted = false;
+            audio.volume = 1.0;
+            audio.load();
+
+            console.log("Current audio source:", audio.src);
+
+            audio.oncanplaythrough = () => console.log("Audio fully loaded and ready to play.");
+            audio.onerror = (e) => console.error("Audio error event:", e, "Error code:", audio.error ? audio.error.code : 'unknown', "Error message:", audio.error ? audio.error.message : 'none');
+
+            const formatTime = (seconds) => {
+                if (isNaN(seconds)) return "0:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const toggleMusic = () => {
+                console.log("toggleMusic triggered. Current state - Paused:", audio.paused);
+                if (audio.paused) {
+                    console.log("Attempting to play audio...");
+                    audio.play().then(() => {
+                        console.log("Audio playing successfully.");
+                        isPlaying = true;
+                        musicButtons.forEach(btn => btn.querySelector('.material-symbols-outlined').textContent = 'pause');
+                        prompts.forEach(p => p.classList.remove('visible'));
+                    }).catch(e => {
+                        console.error("Audio play blocked or failed:", e);
+                        isPlaying = false;
+                    });
+                } else {
+                    audio.pause();
+                    isPlaying = false;
+                    musicButtons.forEach(btn => btn.querySelector('.material-symbols-outlined').textContent = 'music_note');
+                    console.log("Audio paused.");
+                }
+            };
+
+            musicButtons.forEach(btn => btn.addEventListener('click', toggleMusic));
+
+            // Prompt clicks
+            prompts.forEach(p => p.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMusic();
+            }));
+
+            audio.addEventListener('timeupdate', () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                seekBars.forEach(bar => bar.value = progress || 0);
+                currTimeDisplays.forEach(display => display.textContent = formatTime(audio.currentTime));
+                if (!isNaN(audio.duration)) {
+                    durationDisplays.forEach(display => display.textContent = formatTime(audio.duration));
+                }
+            });
+
+            seekBars.forEach(bar => {
+                bar.addEventListener('input', () => {
+                    const time = (bar.value / 100) * audio.duration;
+                    audio.currentTime = time;
+                });
+            });
+
+            // Handle volume
+            volumeBars.forEach(bar => {
+                bar.addEventListener('input', () => {
+                    const vol = bar.value / 100;
+                    audio.volume = vol;
+                    // Sync all volume bars
+                    volumeBars.forEach(b => b.value = bar.value);
+                    console.log(`Volume set to: ${Math.round(vol * 100)}%`);
+                });
+            });
+
+            const startPromptCycle = () => {
+                promptInterval = setInterval(() => {
+                    if (!isPlaying && audio.paused) {
+                        prompts.forEach(p => p.classList.add('visible'));
+                        setTimeout(() => prompts.forEach(p => p.classList.remove('visible')), 4000);
+                    } else {
+                        prompts.forEach(p => p.classList.remove('visible'));
+                    }
+                }, 10000);
+            };
+
+            setTimeout(startPromptCycle, 5000);
         });
     </script>
 </body>

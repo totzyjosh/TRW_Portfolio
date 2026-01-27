@@ -278,12 +278,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Run Folder Animation Check
         if (window.updateHeaderState) window.updateHeaderState();
 
-        // Check if we're in the About section
+        // Check if we're in the About section or at the very bottom
         let isInAboutSection = false;
         if (aboutSection) {
             const aboutTop = aboutSection.offsetTop;
             const aboutBottom = aboutTop + aboutSection.offsetHeight;
-            isInAboutSection = currentScrollY + window.innerHeight > aboutTop && currentScrollY < aboutBottom;
+            const isAtBottom = (window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50;
+
+            isInAboutSection = (currentScrollY + window.innerHeight > aboutTop && currentScrollY < aboutBottom) || isAtBottom;
         }
 
         // Scroll Hint Logic (Only show on Home)
@@ -301,6 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isInAboutSection && footer) {
             footer.style.transform = 'translateY(100%)';
             footer.style.opacity = '0';
+            footer.style.pointerEvents = 'none';
             lastScrollY = currentScrollY;
             return; // Skip the rest of the logic
         }
@@ -313,6 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (footer) {
                 footer.style.transform = 'translateY(100%)';
                 footer.style.opacity = '0';
+                footer.style.pointerEvents = 'none';
             }
         }
 
@@ -326,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (footer) {
                     footer.style.transform = 'translateY(0)';
                     footer.style.opacity = '1';
+                    footer.style.pointerEvents = 'auto';
                 }
             }
         }, 150);

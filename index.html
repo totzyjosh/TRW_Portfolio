@@ -654,10 +654,13 @@
                                 Present</span>
                         </div>
                         <div class="w-full md:w-1/4">
-                            <h3 class="text-2xl font-bold uppercase tracking-tight mb-1">Freelancer, Computer
+                            <h3
+                                class="text-2xl font-bold uppercase tracking-tight mb-1 hover:translate-x-2 transition-transform duration-300">
+                                Freelancer, Computer
                                 Technician
                             </h3>
-                            <p class="text-white/60 font-medium">Parañaque City</p>
+                            <p class="text-white/60 font-medium hover:translate-x-2 transition-transform duration-300">
+                                Parañaque City</p>
                         </div>
                         <div class="w-full md:w-2/4">
                             <ul class="space-y-4">
@@ -685,9 +688,14 @@
                                 2025</span>
                         </div>
                         <div class="w-full md:w-1/4">
-                            <h3 class="text-2xl font-bold uppercase tracking-tight mb-1">IT Specialist</h3>
-                            <p class="text-white/60 font-medium">Realme Philippines · Internship</p>
-                            <p class="text-xs text-white/40 mt-1 uppercase tracking-wider">Taguig, NCR, Philippines
+                            <h3
+                                class="text-2xl font-bold uppercase tracking-tight mb-1 hover:translate-x-2 transition-transform duration-300">
+                                IT Specialist</h3>
+                            <p class="text-white/60 font-medium hover:translate-x-2 transition-transform duration-300">
+                                Realme Philippines · Internship</p>
+                            <p
+                                class="text-xs text-white/40 mt-1 uppercase tracking-wider hover:translate-x-2 transition-transform duration-300">
+                                Taguig, NCR, Philippines
                             </p>
                         </div>
                         <div class="w-full md:w-2/4">
@@ -1202,6 +1210,223 @@
 
     <script src="navigation.js?v=20260126"></script>
     <script src="space_invaders.js"></script>
-</body>
+    <!-- Rocket Scroll to Top -->
+    <div id="rocket-container"
+        class="fixed bottom-10 right-10 z-50 pointer-events-none transition-all duration-700 opacity-0 translate-y-10 group">
+        <!-- Relative container for rocket + flame -->
+        <div id="rocket-wrapper"
+            class="relative pointer-events-auto cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-95"
+            onclick="scrollToTop()">
+            <img src="rocket.png" id="rocket-img" alt="Scroll to Top"
+                class="w-12 h-12 md:w-20 md:h-20 object-contain grayscale-rocket drop-shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 z-10 relative">
 
-</html>
+            <!-- Flame Container -->
+            <div id="rocket-flame"
+                class="absolute left-1/2 bottom-0 -translate-x-1/2 w-4 h-0 bg-gradient-to-t from-red-500 via-orange-400 to-yellow-300 rounded-b-full opacity-0 transition-all duration-200 z-0 blur-[2px]">
+            </div>
+
+            <span id="rocket-tooltip"
+                class="absolute right-full mr-4 top-1/2 -translate-y-1/2 whitespace-nowrap bg-black/40 backdrop-blur-md border border-white/20 text-white px-6 py-2 rounded-full text-xs font-medium tracking-wider opacity-0 transition-all duration-300 shadow-2xl font-sans">
+                Want a lift?
+            </span>
+        </div>
+    </div>
+
+    <style>
+        .grayscale-rocket {
+            filter: grayscale(100%) brightness(0.9) contrast(1.1) !important;
+        }
+
+        /* Fly Animation */
+        @keyframes rocket-fly {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            40% {
+                transform: translateY(50px) scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-150vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Shake Animation for "Revving" */
+        @keyframes rocket-shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-2px) rotate(-1deg);
+            }
+
+            75% {
+                transform: translateX(2px) rotate(1deg);
+            }
+        }
+
+        /* Flame Flicker Animation */
+        @keyframes flame-flicker {
+
+            0%,
+            100% {
+                height: 40px;
+                opacity: 0.8;
+                transform: translateX(-50%) scaleX(1);
+            }
+
+            50% {
+                height: 50px;
+                opacity: 1;
+                transform: translateX(-50%) scaleX(1.2);
+            }
+        }
+
+        /* Pulsate Animation */
+        @keyframes rocket-pulsate {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: grayscale(100%) brightness(0.9) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+            }
+
+            50% {
+                transform: scale(1.05);
+                filter: grayscale(100%) brightness(1.1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+            }
+        }
+
+        .rocket-pulsating {
+            animation: rocket-pulsate 1.5s ease-in-out infinite !important;
+        }
+
+        .rocket-flying {
+            animation: rocket-fly 1.5s cubic-bezier(0.45, 0, 0.55, 1) forwards !important;
+            pointer-events: none;
+        }
+
+        /* Launching State: Shake + Flame */
+        .rocket-launching #rocket-img {
+            animation: rocket-shake 0.1s linear infinite;
+        }
+
+        .rocket-launching #rocket-flame {
+            opacity: 1 !important;
+            height: 40px !important;
+            animation: flame-flicker 0.1s linear infinite;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rocketContainer = document.getElementById('rocket-container');
+            const rocketWrapper = document.getElementById('rocket-wrapper');
+            const rocketImg = document.getElementById('rocket-img');
+            const rocketTooltip = document.getElementById('rocket-tooltip');
+            const aboutSection = document.getElementById('about');
+
+            let rocketState = 'idle'; // idle, waiting, visible, action, cooldown
+            let waitTimer, windowTimer, cooldownTimer;
+
+            const resetRocket = (reason = 'force') => {
+                rocketState = 'idle';
+                clearTimeout(waitTimer);
+                clearTimeout(windowTimer);
+                rocketContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                rocketWrapper.classList.remove('rocket-pulsating', 'rocket-launching', 'rocket-flying');
+                rocketTooltip.classList.add('opacity-0');
+            };
+
+            const startCooldown = () => {
+                rocketState = 'cooldown';
+                rocketContainer.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                clearTimeout(cooldownTimer);
+                cooldownTimer = setTimeout(() => {
+                    rocketState = 'idle';
+                    checkVisibility(); // Re-check once cooldown is over
+                }, 10000);
+            };
+
+            const showRocket = () => {
+                if (rocketState !== 'waiting') return;
+                rocketState = 'visible';
+                rocketContainer.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                rocketContainer.classList.add('pointer-events-auto');
+                rocketWrapper.classList.add('rocket-pulsating');
+                rocketTooltip.innerText = "Want a lift?";
+                rocketTooltip.classList.remove('opacity-0');
+
+                // 4 second window to click
+                windowTimer = setTimeout(() => {
+                    if (rocketState === 'visible') {
+                        startCooldown();
+                    }
+                }, 4000);
+            };
+
+            const checkVisibility = () => {
+                const scrollY = window.scrollY;
+                const winHeight = window.innerHeight;
+                const aboutRect = aboutSection.getBoundingClientRect();
+                const isAboutVisible = aboutRect.top < winHeight * 0.8;
+
+                if (isAboutVisible) {
+                    if (rocketState === 'idle') {
+                        rocketState = 'waiting';
+                        waitTimer = setTimeout(showRocket, 10000);
+                    }
+                } else {
+                    if (rocketState === 'waiting' || rocketState === 'visible') {
+                        resetRocket();
+                    }
+                }
+            };
+
+            window.addEventListener('scroll', checkVisibility);
+
+            window.scrollToTop = function () {
+                if (rocketState !== 'visible') return;
+                rocketState = 'action';
+
+                clearTimeout(windowTimer);
+
+                // Stage 2: Launching
+                rocketTooltip.classList.add('opacity-0');
+                rocketWrapper.classList.remove('rocket-pulsating');
+                rocketWrapper.classList.add('rocket-launching');
+
+                setTimeout(() => {
+                    // Stage 3: Liftoff
+                    rocketWrapper.classList.remove('rocket-launching');
+                    rocketWrapper.classList.add('rocket-flying');
+
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    setTimeout(() => {
+                        rocketWrapper.classList.remove('rocket-flying');
+
+                        // Briefly show at top
+                        rocketContainer.classList.remove('opacity-0', 'translate-y-10');
+                        rocketTooltip.innerText = "You're welcome!";
+                        rocketTooltip.classList.remove('opacity-0');
+
+                        setTimeout(() => {
+                            rocketTooltip.classList.add('opacity-0');
+                            startCooldown(); // Enter cooldown after successful flight
+                        }, 3000);
+
+                    }, 1500);
+
+                }, 800);
+            };
+        });
+    </script>
+</body>

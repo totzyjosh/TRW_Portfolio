@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Handle Transition Logic
             const triggerFlash = () => {
                 if (whiteFlash.classList.contains('flash-active')) return;
-                whiteFlash.style.transition = 'opacity 1.5s ease-in';
+                // Transition handled in CSS via transform scale
                 whiteFlash.classList.add('flash-active');
             };
 
@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
             };
 
-            // Trigger flash 1s before video ends
+            // Trigger flash 2.5s before video ends
             const checkTime = () => {
-                if (explosionVideo.duration && explosionVideo.currentTime >= explosionVideo.duration - 1.0) {
+                if (explosionVideo.duration && explosionVideo.currentTime >= explosionVideo.duration - 2.5) {
                     triggerFlash();
                     explosionVideo.removeEventListener('timeupdate', checkTime);
                 }

@@ -108,22 +108,31 @@
     display: none;
 }
 
-/* White Flash Effect */
+/* White Flash Effect - Circular Glow (Soft Edges) */
 .white-flash {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 250vmax;
+    /* Even larger to ensure full coverage */
+    height: 250vmax;
+    transform: translate(-50%, -50%) scale(0);
+    /* Start at center, scale 0 */
+    border-radius: 50%;
+    /* Gradient fades to transparent to remove hard edges */
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 30%, rgba(255, 255, 255, 0) 70%);
+    box-shadow: none;
+    filter: blur(30px);
+    /* Blurs any banding for seamless blend */
     z-index: 20;
-    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.1s ease-in;
+    transition: transform 1.8s cubic-bezier(0.64, 0, 0.78, 0);
+    /* Slightly longer expansion */
+    opacity: 1;
 }
 
 .flash-active {
-    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 /* Music Player Scrolling Text */

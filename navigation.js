@@ -1,4 +1,50 @@
+/**
+ * Navigation & Sound Logic
+ */
+const SoundManager = {
+    sounds: {},
+    init() {
+        // Preload sounds
+        this.sounds.hover = new Audio('hover.mp3');
+        this.sounds.click = new Audio('click.mp3');
+        this.sounds.transition = new Audio('transition.mp3');
+        
+        // Volumes
+        this.sounds.hover.volume = 0.2; // Subtle
+        this.sounds.click.volume = 0.4;
+        this.sounds.transition.volume = 0.5;
+
+        // Global Listeners
+        this.attachListeners();
+    },
+
+    play(name) {
+        if (this.sounds[name]) {
+            const clone = this.sounds[name].cloneNode(); // Allow overlapping sounds
+            clone.volume = this.sounds[name].volume;
+            clone.play().catch(() => {}); // Ignore interaction errors
+        }
+    },
+
+    attachListeners() {
+        // Buttons, Links, Interactive Elements
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('a, button, .cursor-pointer')) {
+                this.play('hover');
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('a, button, .cursor-pointer')) {
+                this.play('click');
+            }
+        });
+    }
+};
+
+// Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
+    SoundManager.init();
     const navHtml = `
     <!-- Navigation Overlay -->
     <div id="nav-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 md:p-10 bg-black/50 backdrop-blur-sm">

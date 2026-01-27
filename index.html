@@ -103,7 +103,7 @@
         }
 
         /* Skill Pill */
-        .skill-pill {
+        .skill-pill, .pill-tag {
             @apply border border-white/10 rounded-full px-5 py-2 text-sm font-medium text-white/60 hover:text-white hover:border-white/40 transition-all duration-300 cursor-default bg-white/5;
         }
 
@@ -337,13 +337,14 @@
             background: conic-gradient(
                 from 0deg,
                 transparent 0deg,
-                transparent 280deg,
-                rgba(255, 255, 255, 1) 360deg
+                rgba(255, 255, 255, 0) 30deg,
+                rgba(255, 255, 255, 1) 90deg,
+                rgba(255, 255, 255, 0) 150deg
             );
             animation: rotate-trail 4s linear infinite;
             opacity: 0;
             transition: opacity 0.3s ease;
-            filter: blur(15px);
+            filter: blur(35px);
         }
 
         .group:hover .hero-trail::before {
@@ -778,43 +779,39 @@
                                 class="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700"
                                 src="profile.jpg" />
                         </div>
-                    </div>
 
-                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[100px] -z-10 rounded-full">
-                    </div>
-
-                    <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
-                    <div
-                        class="opacity-[0.01] group-hover:opacity-100 absolute inset-0 z-30 pointer-events-none transform-gpu will-change-[opacity,backdrop-filter]">
-                        <!-- Label 1: Computer Engineer (Top Right) -->
-                        <div class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                            style="backface-visibility: hidden; transform: translateZ(0);">
-                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                        <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
+                        <div
+                            class="opacity-[0.01] group-hover:opacity-100 absolute inset-0 z-30 pointer-events-none transform-gpu will-change-[opacity,backdrop-filter]">
+                            <!-- Label 1: Computer Engineer (Top Right) -->
+                            <div class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="backface-visibility: hidden; transform: translateZ(0);">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
+                                    Engineer</span>
                             </div>
-                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
-                                Engineer</span>
-                        </div>
 
-                        <!-- Label 2: UI/UX Designer (Bottom Left) -->
-                        <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                            style="animation-delay: 3s; backface-visibility: hidden; transform: translateZ(0);">
-                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                            <!-- Label 2: UI/UX Designer (Bottom Left) -->
+                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="animation-delay: 3s; backface-visibility: hidden; transform: translateZ(0);">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
+                                    Designer</span>
                             </div>
-                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
-                                Designer</span>
-                        </div>
 
-                        <!-- Label 3: Network Administrator (Top Left) -->
-                        <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                            style="animation-delay: 6s; backface-visibility: hidden; transform: translateZ(0);">
-                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                            <!-- Label 3: Network Administrator (Top Left) -->
+                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                                style="animation-delay: 6s; backface-visibility: hidden; transform: translateZ(0);">
+                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                                </div>
+                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
+                                    Administrator</span>
                             </div>
-                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
-                                Administrator</span>
                         </div>
                     </div>
                 </div>
-            </div>
             </div>
             <div class="w-full mt-auto pt-20 select-none pointer-events-none pb-24 md:pb-32 overflow-hidden">
                 <style>
@@ -847,7 +844,6 @@
             </div>
 
             </div>
-        </section>
         </section>
 
         <!-- EXPERIENCE SECTION -->

@@ -298,6 +298,32 @@
             @apply relative z-10 m-[1px] bg-zinc-900/95 backdrop-blur-xl rounded-2xl p-4 flex flex-col gap-4;
         }
 
+        /* Portrait Rotating Light Trail (About Me) */
+        .portrait-trail {
+            @apply absolute inset-0 overflow-hidden rounded-2xl pointer-events-none;
+            z-index: 0;
+        }
+        
+        .portrait-trail::before {
+            content: '';
+            @apply absolute top-1/2 left-1/2 w-[200%] h-[200%];
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 280deg,
+                rgba(255, 255, 255, 1) 360deg
+            );
+            animation: rotate-trail 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(15px);
+        }
+
+        .group:hover .portrait-trail::before {
+            opacity: 1;
+        }
+
         @keyframes rotate-trail {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -1275,7 +1301,12 @@
                     </div>
                     <div class="w-full lg:w-2/5 flex flex-col gap-12">
                         <div class="relative group">
-                            <div class="aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-zinc-900">
+                            <!-- Rotating Light Trail -->
+                            <div class="portrait-trail"></div>
+
+                            <!-- Image Wrapper -->
+                            <div
+                                class="relative z-10 m-[1px] aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-zinc-900">
                                 <img alt="Professional portrait of JOSHUA ADRIANE A. LARA"
                                     class="w-full h-full object-cover grayscale brightness-95 contrast-110 hover:grayscale-0 transition-all duration-500"
                                     src="profile.jpg" />

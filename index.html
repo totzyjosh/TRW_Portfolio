@@ -324,6 +324,32 @@
             opacity: 1;
         }
 
+        /* Hero Image Rotating Light Trail (Home Page) */
+        .hero-trail {
+            @apply absolute inset-0 overflow-hidden rounded-full pointer-events-none;
+            z-index: 0;
+        }
+        
+        .hero-trail::before {
+            content: '';
+            @apply absolute top-1/2 left-1/2 w-[200%] h-[200%];
+            transform: translate(-50%, -50%);
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                transparent 280deg,
+                rgba(255, 255, 255, 1) 360deg
+            );
+            animation: rotate-trail 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(15px);
+        }
+
+        .group:hover .hero-trail::before {
+            opacity: 1;
+        }
+
         @keyframes rotate-trail {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
@@ -735,7 +761,10 @@
                 <div class="w-full md:w-1/2 flex justify-center items-center relative"
                     style="isolation: isolate; backdrop-filter: blur(0px);">
                     <div class="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px] group">
-                        <!-- Rotating Light Glow -->
+                        <!-- Rotating Light Trail -->
+                        <div class="hero-trail"></div>
+
+                        <!-- Rotating Light Glow (Already exists, keeping it for extra depth) -->
                         <div
                             class="absolute -inset-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md z-0">
                             <div
@@ -744,48 +773,48 @@
                         </div>
 
                         <div
-                            class="relative z-10 w-full h-full rounded-full border border-white/10 bg-gradient-to-b from-white/5 to-transparent overflow-hidden">
+                            class="relative z-10 m-[1px] w-full h-full rounded-full border border-white/10 bg-gradient-to-b from-white/5 to-transparent overflow-hidden">
                             <img alt="Professional portrait"
                                 class="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-700"
                                 src="profile.jpg" />
                         </div>
+                    </div>
 
-                        <div
-                            class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[100px] -z-10 rounded-full">
+                    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-500/10 blur-[100px] -z-10 rounded-full">
+                    </div>
+
+                    <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
+                    <div
+                        class="opacity-[0.01] group-hover:opacity-100 absolute inset-0 z-30 pointer-events-none transform-gpu will-change-[opacity,backdrop-filter]">
+                        <!-- Label 1: Computer Engineer (Top Right) -->
+                        <div class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                            style="backface-visibility: hidden; transform: translateZ(0);">
+                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
+                            </div>
+                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
+                                Engineer</span>
                         </div>
 
-                        <!-- Animated Pop Looping Labels (Continuous cycle, show on hover) -->
-                        <div
-                            class="opacity-[0.01] group-hover:opacity-100 absolute inset-0 z-30 pointer-events-none transform-gpu will-change-[opacity,backdrop-filter]">
-                            <!-- Label 1: Computer Engineer (Top Right) -->
-                            <div class="absolute top-20 -right-4 md:-right-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                                style="backface-visibility: hidden; transform: translateZ(0);">
-                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
-                                </div>
-                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Computer
-                                    Engineer</span>
+                        <!-- Label 2: UI/UX Designer (Bottom Left) -->
+                        <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                            style="animation-delay: 3s; backface-visibility: hidden; transform: translateZ(0);">
+                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                             </div>
+                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
+                                Designer</span>
+                        </div>
 
-                            <!-- Label 2: UI/UX Designer (Bottom Left) -->
-                            <div class="absolute bottom-20 -left-4 md:-left-12 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                                style="animation-delay: 3s; backface-visibility: hidden; transform: translateZ(0);">
-                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
-                                </div>
-                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">UI/UX
-                                    Designer</span>
+                        <!-- Label 3: Network Administrator (Top Left) -->
+                        <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
+                            style="animation-delay: 6s; backface-visibility: hidden; transform: translateZ(0);">
+                            <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
                             </div>
-
-                            <!-- Label 3: Network Administrator (Top Left) -->
-                            <div class="absolute top-10 left-0 md:-left-8 px-5 py-3 bg-white/10 backdrop-blur-[40px] border border-white/20 rounded-2xl scale-0 opacity-0 animate-pop-cycle shadow-2xl z-20 flex items-center gap-3 transform-gpu"
-                                style="animation-delay: 6s; backface-visibility: hidden; transform: translateZ(0);">
-                                <div class="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)]">
-                                </div>
-                                <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
-                                    Administrator</span>
-                            </div>
+                            <span class="text-xs md:text-sm font-bold uppercase tracking-widest text-white">Network
+                                Administrator</span>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <div class="w-full mt-auto pt-20 select-none pointer-events-none pb-24 md:pb-32 overflow-hidden">
                 <style>
@@ -1632,6 +1661,8 @@
             const rocketWrapper = document.getElementById('rocket-wrapper');
             const rocketImg = document.getElementById('rocket-img');
             const rocketTooltip = document.getElementById('rocket-tooltip');
+            const rocketSound = new Audio('rocketlaunch.mp3');
+            rocketSound.preload = 'auto';
             const aboutSection = document.getElementById('about');
 
             let rocketState = 'idle'; // idle, waiting, visible, action, cooldown
@@ -1702,6 +1733,11 @@
                 rocketTooltip.classList.add('opacity-0');
                 rocketWrapper.classList.add('rocket-launching');
 
+                // Play Launch Sound (Start at 1s as requested)
+                rocketSound.currentTime = 1;
+                rocketSound.volume = 0.6;
+                rocketSound.play().catch(e => console.log("Rocket sound blocked:", e));
+
                 setTimeout(() => {
                     // Stage 3: Liftoff
                     rocketWrapper.classList.remove('rocket-launching');
@@ -1716,6 +1752,17 @@
                         rocketContainer.classList.remove('opacity-0', 'translate-y-10');
                         rocketTooltip.innerText = "You're welcome!";
                         rocketTooltip.classList.remove('opacity-0');
+
+                        // Fast Fade Out Sound
+                        const fadeInterval = setInterval(() => {
+                            if (rocketSound.volume > 0.05) {
+                                rocketSound.volume -= 0.05;
+                            } else {
+                                rocketSound.pause();
+                                rocketSound.volume = 0.6;
+                                clearInterval(fadeInterval);
+                            }
+                        }, 50);
 
                         setTimeout(() => {
                             rocketTooltip.classList.add('opacity-0');

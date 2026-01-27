@@ -302,15 +302,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function createParticle(x, y, color) {
-        for (let i = 0; i < 8; i++) {
+    function createParticle(x, y) {
+        const colors = ['#fff', '#ffeb3b', '#ff9800']; // White, Yellow, Orange
+        for (let i = 0; i < 24; i++) {
             particles.push({
                 x: x,
                 y: y,
-                dx: (Math.random() - 0.5) * 6,
-                dy: (Math.random() - 0.5) * 6,
-                radius: Math.random() * 2,
-                color: color,
+                dx: (Math.random() - 0.5) * 8, // Slightly faster spread
+                dy: (Math.random() - 0.5) * 8,
+                radius: Math.random() * 2.5,
+                color: colors[Math.floor(Math.random() * colors.length)],
                 life: 1
             });
         }
@@ -349,7 +350,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         alien.status = 0;
                         score += 10;
                         scoreEl.innerText = score;
-                        createParticle(alien.x + alienWidth / 2, alien.y + alienHeight / 2, '#fff');
+                        createParticle(alien.x + alienWidth / 2, alien.y + alienHeight / 2);
                         playSound(boomSound, 0.15, 0.1); // Lower volume and skip 0.1s silence for boom
 
                         // Remove bullet
@@ -389,13 +390,18 @@ document.addEventListener('DOMContentLoaded', () => {
         particles.forEach((p, i) => {
             p.x += p.dx;
             p.y += p.dy;
-            p.life -= 0.05;
+            p.life -= 0.04; // Slightly slower fade
+
+            ctx.save();
             ctx.globalAlpha = p.life;
             ctx.fillStyle = p.color;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = p.color;
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fill();
-            ctx.globalAlpha = 1.0;
+            ctx.restore();
+
             if (p.life <= 0) particles.splice(i, 1);
         });
 
